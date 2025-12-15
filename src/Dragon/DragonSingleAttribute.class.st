@@ -28,6 +28,16 @@ DragonSingleAttribute >> isMultiple [
 	^ false
 ]
 
+{ #category : 'as yet unclassified' }
+DragonSingleAttribute >> relationsFor: anObject [
+
+	^ {DragonRelation new
+	source: anObject;
+	dragonAttribute: self;
+	target: (anObject perform: self getter);
+	yourself}
+]
+
 { #category : 'accessing' }
 DragonSingleAttribute >> setter [
 

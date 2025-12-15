@@ -24,6 +24,13 @@ DragonAbstractAttribute >> compileDragonOn: aClass withClassification: aClassifi
 	aClass compile: method classified: aClassification
 ]
 
+{ #category : 'as yet unclassified' }
+DragonAbstractAttribute >> dragonEquals: anObject [
+
+	(self class = anObject class) ifFalse: [ ^ false ].
+	^ (self name = anObject name)
+]
+
 { #category : 'accessing' }
 DragonAbstractAttribute >> name [
 
@@ -34,4 +41,10 @@ DragonAbstractAttribute >> name [
 DragonAbstractAttribute >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : 'as yet unclassified' }
+DragonAbstractAttribute >> relationsFor: anObject [
+
+	^ self explicitRequirement
 ]

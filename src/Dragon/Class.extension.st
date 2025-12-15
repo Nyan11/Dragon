@@ -11,5 +11,10 @@ Class >> addDragonMetaAttribute: aDragonAttribute [
 Class >> dragonAttributes [
 
 	<metaDragon>
-	^ DragonMultipleAttribute new getterForAll: #dragonMetaAttributes; addOne: #addDragonMetaAttribute:; yourself 
+	^ DragonMultipleAttribute new
+		  name: 'Attributes';
+		  getterForAll: #dragonMetaAttributes;
+		  addOne: #addDragonMetaAttribute:;
+		  types: { DragonSingleAttribute . DragonMultipleAttribute . DragonStateAttribute };
+		  yourself
 ]

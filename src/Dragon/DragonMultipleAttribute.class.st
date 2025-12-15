@@ -39,3 +39,14 @@ DragonMultipleAttribute >> isMultiple [
 
 	^ true
 ]
+
+{ #category : 'as yet unclassified' }
+DragonMultipleAttribute >> relationsFor: anObject [
+
+	^ (anObject perform: self getterForAll) collect: [ :each |
+			  DragonRelation new
+				  source: anObject;
+				  dragonAttribute: self;
+				  target: each;
+				  yourself ]
+]

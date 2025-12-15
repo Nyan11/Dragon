@@ -26,12 +26,15 @@ DragonAbstractTypedAttribute >> dragonTypes [
 
 	<metaDragon>
 	^ DragonStateAttribute new
+	     name: 'Type State';
 		  if: #isMultiple stateIs: (DragonMultipleAttribute new
+					name: 'Types';
 				   type: Class class;
 				   getterForAll: #types;
-				   addOne: #addType: ;
+				   addOne: #addType:;
 				   yourself);
 		  defaultState: (DragonSingleAttribute new
+		         name: 'Type';
 				   type: Class class;
 				   getter: #type;
 				   setter: #type:;
