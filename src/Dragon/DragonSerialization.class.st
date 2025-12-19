@@ -21,7 +21,7 @@ DragonSerialization >> serialize: anObject [
 { #category : 'private' }
 DragonSerialization >> serializeForScript: anObject [
 
-	| makeAllRelations separateRelations multipleRefsObjects |
+	| makeAllRelations separateRelations multipleRefsObjects makeScript namedReferences |
 	makeAllRelations := DragonMakeAllRelations new
 		                    rootObject: anObject;
 		                    build.
@@ -35,6 +35,13 @@ DragonSerialization >> serializeForScript: anObject [
 			                       separateRelations targetsDictionary;
 		                       rootObject: anObject;
 		                       build.
-
-	self halt
+	namedReferences := DragonNamedReferences new
+		                   multiReferences:
+			                   multipleRefsObjects multiReferences;
+		                   yourself.
+	makeScript := DragonMakeScript new
+		              rootReference: multipleRefsObjects rootReference;
+		              nameReferenceDictionary: namedReferences nameReferenceDictionary;
+		              build.
+	^ makeScript serializedString
 ]

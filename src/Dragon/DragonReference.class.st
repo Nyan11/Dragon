@@ -1,10 +1,11 @@
 Class {
 	#name : 'DragonReference',
-	#superclass : 'Object',
+	#superclass : 'DragonObject',
 	#instVars : [
 		'object',
 		'relations',
-		'nextReferencesWithAttribute'
+		'nextReferencesWithAttribute',
+		'constructor'
 	],
 	#category : 'Dragon',
 	#package : 'Dragon'
@@ -17,10 +18,28 @@ DragonReference >> addNextReference: aDragonReference withAttribute: aDragonSing
 ]
 
 { #category : 'accessing' }
-DragonReference >> initialize [ 
+DragonReference >> constructor [
+
+	^ constructor
+]
+
+{ #category : 'accessing' }
+DragonReference >> constructor: anObject [
+
+	constructor := anObject
+]
+
+{ #category : 'as yet unclassified' }
+DragonReference >> dragonVisit: aDragonVisitor [
+
+	aDragonVisitor visitReference: self
+]
+
+{ #category : 'accessing' }
+DragonReference >> initialize [
 
 	super initialize.
-	nextReferencesWithAttribute := Dictionary new
+	nextReferencesWithAttribute := Dictionary new.
 ]
 
 { #category : 'accessing' }
@@ -38,7 +57,8 @@ DragonReference >> object [
 { #category : 'accessing' }
 DragonReference >> object: anObject [
 
-	object := anObject
+	object := anObject.
+	self constructor: anObject dragonConstructor
 ]
 
 { #category : 'accessing' }

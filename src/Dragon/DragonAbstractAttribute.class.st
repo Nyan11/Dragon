@@ -1,6 +1,6 @@
 Class {
 	#name : 'DragonAbstractAttribute',
-	#superclass : 'Object',
+	#superclass : 'DragonObject',
 	#instVars : [
 		'name'
 	],
@@ -25,10 +25,16 @@ DragonAbstractAttribute >> compileDragonOn: aClass withClassification: aClassifi
 ]
 
 { #category : 'as yet unclassified' }
-DragonAbstractAttribute >> dragonEquals: anObject [
+DragonAbstractAttribute >> dragonEquals: arg1 [
 
-	(self class = anObject class) ifFalse: [ ^ false ].
-	^ (self name = anObject name)
+	self class = arg1 class ifFalse: [ ^ false ].
+	^ self name = arg1 name
+]
+
+{ #category : 'as yet unclassified' }
+DragonAbstractAttribute >> dragonVisit: aDragonVisitor [
+
+	aDragonVisitor visitAttribute: self 
 ]
 
 { #category : 'accessing' }
@@ -44,7 +50,7 @@ DragonAbstractAttribute >> name: anObject [
 ]
 
 { #category : 'as yet unclassified' }
-DragonAbstractAttribute >> relationsFor: anObject [
+DragonAbstractAttribute >> relationsFor: arg1 [
 
 	^ self explicitRequirement
 ]

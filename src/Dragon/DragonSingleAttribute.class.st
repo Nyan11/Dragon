@@ -29,13 +29,15 @@ DragonSingleAttribute >> isMultiple [
 ]
 
 { #category : 'as yet unclassified' }
-DragonSingleAttribute >> relationsFor: anObject [
+DragonSingleAttribute >> relationsFor: arg1 [
 
-	^ {DragonRelation new
-	source: anObject;
-	dragonAttribute: self;
-	target: (anObject perform: self getter);
-	yourself}
+	| tmp2 |
+	tmp2 := DragonRelation new.
+	tmp2
+		source: arg1;
+		dragonAttribute: self;
+		target: (arg1 perform: self getter).
+	^ { tmp2 yourself }
 ]
 
 { #category : 'accessing' }

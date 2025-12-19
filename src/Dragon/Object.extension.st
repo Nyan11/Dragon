@@ -1,6 +1,13 @@
 Extension { #name : 'Object' }
 
 { #category : '*Dragon' }
+Object >> dragonConstructor [
+
+	self isLiteral ifTrue: [ ^ DragonLiteralConstructor new string: self printString  ].
+	^ DragonBasicConstructor new object: self
+]
+
+{ #category : '*Dragon' }
 Object >> dragonEquals: anObject [
 
 	^ self = anObject

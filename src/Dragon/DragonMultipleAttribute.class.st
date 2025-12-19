@@ -41,12 +41,14 @@ DragonMultipleAttribute >> isMultiple [
 ]
 
 { #category : 'as yet unclassified' }
-DragonMultipleAttribute >> relationsFor: anObject [
+DragonMultipleAttribute >> relationsFor: arg1 [
 
-	^ (anObject perform: self getterForAll) collect: [ :each |
-			  DragonRelation new
-				  source: anObject;
+	^ (arg1 perform: self getterForAll) collect: [ :arg2 |
+			  | tmp2 |
+			  tmp2 := DragonRelation new.
+			  tmp2
+				  source: arg1;
 				  dragonAttribute: self;
-				  target: each;
+				  target: arg2;
 				  yourself ]
 ]
