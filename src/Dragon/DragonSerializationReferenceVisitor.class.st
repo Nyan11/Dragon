@@ -6,8 +6,9 @@ Class {
 		'scriptStream',
 		'executedDictionary'
 	],
-	#category : 'Dragon',
-	#package : 'Dragon'
+	#category : 'Dragon-Serialization',
+	#package : 'Dragon',
+	#tag : 'Serialization'
 }
 
 { #category : 'accessing' }
@@ -54,9 +55,16 @@ DragonSerializationReferenceVisitor >> visitAttribute: aDragonSingleAttribute [
 ]
 
 { #category : 'visiting' }
-DragonSerializationReferenceVisitor >> visitConstructor: aDragonBasicConstructor [
+DragonSerializationReferenceVisitor >> visitConstructor: aDragonConstructor [
 
-	self scriptStream << aDragonBasicConstructor constructorString
+	aDragonConstructor hasReferences ifFalse: [ ^ self scriptStream << aDragonConstructor constructorString ].
+	
+	self scriptStream << aDragonConstructor beginConstructorString.
+	aDragonConstructor references do: [ :each | self visitReference: each.  self scriptStream << aDragonConstructor separatorConstructorString].
+	self scriptStream << aDragonConstructor endConstructorString.
+	
+	
+	
 ]
 
 { #category : 'visiting' }

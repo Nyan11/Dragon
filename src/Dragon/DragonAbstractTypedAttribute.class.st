@@ -25,24 +25,24 @@ DragonAbstractTypedAttribute >> addType: aClass [
 DragonAbstractTypedAttribute >> dragonTypes [
 
 	<metaDragon>
-	| tmp2 tmp4 tmp6 |
-	tmp2 := DragonStateAttribute new.
-	tmp2 name: 'Type State'.
-	tmp4 := DragonMultipleAttribute new.
-	tmp4
+	| tmp1 tmp2 tmp3 |
+	tmp1 := DragonStateAttribute new.
+	tmp1 name: 'Type State'.
+	tmp2 := DragonMultipleAttribute new.
+	tmp2
 		name: 'Types';
 		type: Class class;
 		getterForAll: #types;
 		addOne: #addType:.
-	tmp2 if: #isMultiple stateIs: tmp4 yourself.
-	tmp6 := DragonSingleAttribute new.
-	tmp6
+	tmp1 if: #isMultiple stateIs: tmp2 yourself.
+	tmp3 := DragonSingleAttribute new.
+	tmp3
 		name: 'Type';
 		type: Class class;
 		getter: #type;
 		setter: #type:.
-	tmp2 defaultState: tmp6 yourself.
-	^ tmp2 yourself
+	tmp1 defaultState: tmp3 yourself.
+	^ tmp1 yourself
 ]
 
 { #category : 'testing' }

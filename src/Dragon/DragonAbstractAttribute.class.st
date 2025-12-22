@@ -2,7 +2,8 @@ Class {
 	#name : 'DragonAbstractAttribute',
 	#superclass : 'DragonObject',
 	#instVars : [
-		'name'
+		'name',
+		'isForConstructor'
 	],
 	#category : 'Dragon-Description',
 	#package : 'Dragon',
@@ -13,6 +14,12 @@ Class {
 DragonAbstractAttribute class >> isAbstract [
 
 	^ self == DragonAbstractAttribute
+]
+
+{ #category : 'as yet unclassified' }
+DragonAbstractAttribute >> beForConstructor [
+
+	isForConstructor := true
 ]
 
 { #category : 'compiling' }
@@ -35,6 +42,13 @@ DragonAbstractAttribute >> dragonEquals: arg1 [
 DragonAbstractAttribute >> dragonVisit: aDragonVisitor [
 
 	aDragonVisitor visitAttribute: self 
+]
+
+{ #category : 'as yet unclassified' }
+DragonAbstractAttribute >> initialize [
+
+	super initialize.
+	isForConstructor := false
 ]
 
 { #category : 'accessing' }

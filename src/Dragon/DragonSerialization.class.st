@@ -1,22 +1,10 @@
 Class {
 	#name : 'DragonSerialization',
 	#superclass : 'Object',
-	#category : 'Dragon',
-	#package : 'Dragon'
+	#category : 'Dragon-Serialization',
+	#package : 'Dragon',
+	#tag : 'Serialization'
 }
-
-{ #category : 'private' }
-DragonSerialization >> serialize: anObject [
-
-	| makeAllRelations separateRelations |
-	makeAllRelations := DragonMakeAllRelations new
-		                    rootObject: anObject;
-		                    build.
-	separateRelations := DragonSeparateRelations new
-		                     relations: makeAllRelations relations;
-		                     build.
-	self halt
-]
 
 { #category : 'private' }
 DragonSerialization >> serializeForScript: anObject [
@@ -38,10 +26,12 @@ DragonSerialization >> serializeForScript: anObject [
 	namedReferences := DragonNamedReferences new
 		                   multiReferences:
 			                   multipleRefsObjects multiReferences;
-		                   yourself.
+		                   build.
 	makeScript := DragonMakeScript new
+		              references: multipleRefsObjects references;
 		              rootReference: multipleRefsObjects rootReference;
-		              nameReferenceDictionary: namedReferences nameReferenceDictionary;
+		              nameReferenceDictionary:
+			              namedReferences nameReferenceDictionary;
 		              build.
 	^ makeScript serializedString
 ]

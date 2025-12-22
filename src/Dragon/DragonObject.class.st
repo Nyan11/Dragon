@@ -1,8 +1,9 @@
 Class {
 	#name : 'DragonObject',
 	#superclass : 'Object',
-	#category : 'Dragon',
-	#package : 'Dragon'
+	#category : 'Dragon-Serialization',
+	#package : 'Dragon',
+	#tag : 'Serialization'
 }
 
 { #category : 'as yet unclassified' }

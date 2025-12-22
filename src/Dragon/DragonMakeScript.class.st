@@ -3,12 +3,13 @@ Class {
 	#superclass : 'DragonSerializationStep',
 	#instVars : [
 		'rootReference',
-		'multiReferences',
+		'references',
 		'nameReferenceDictionary',
 		'serializedString'
 	],
-	#category : 'Dragon',
-	#package : 'Dragon'
+	#category : 'Dragon-Serialization',
+	#package : 'Dragon',
+	#tag : 'Serialization'
 }
 
 { #category : 'building' }
@@ -18,7 +19,6 @@ DragonMakeScript >> build [
 	variablesString := self buildVariablesString.
 	variableConstructors := self buildVariableConstructorsString.
 	rootString := self buildRootString.
-
 	globalString := '<1s><r><2s><r><3s><r>'
 		                expandMacrosWith: variablesString
 		                with: variableConstructors
@@ -32,9 +32,7 @@ DragonMakeScript >> build [
 DragonMakeScript >> buildRootString [
 
 	| visitor |
-	visitor := DragonSerializationReferenceVisitor new
-		           nameReferenceDictionary: self nameReferenceDictionary;
-		           yourself.
+	visitor := self makeNewVisitor.
 	self rootReference dragonVisit: visitor.
 	^ visitor scriptStream contents
 ]
@@ -62,11 +60,12 @@ DragonMakeScript >> buildVariableConstructorsString [
 	| variableConstructors |
 	variableConstructors := ''.
 	self nameReferenceDictionary keysAndValuesDo: [ :ref :name |
-			variableConstructors := variableConstructors
-			                        ,
-			                        ('<1s> := (<2s>).'
+			| visitor |
+			visitor := self makeNewVisitor.
+			ref constructor dragonVisit: visitor.
+			variableConstructors := variableConstructors , ('<1s> := (<2s>).'
 				                         expandMacrosWith: name
-				                         with: (ref constructor dragonVisit: self)) ].
+				                         with: visitor scriptStream contents) ].
 
 	^ variableConstructors
 ]
@@ -87,16 +86,12 @@ DragonMakeScript >> buildVariablesString [
 	^ variablesString
 ]
 
-{ #category : 'accessing' }
-DragonMakeScript >> multiReferences [
+{ #category : 'building' }
+DragonMakeScript >> makeNewVisitor [
 
-	^ multiReferences
-]
-
-{ #category : 'accessing' }
-DragonMakeScript >> multiReferences: anObject [
-
-	multiReferences := anObject
+	^ DragonSerializationReferenceVisitor new
+				           nameReferenceDictionary: self nameReferenceDictionary;
+				           yourself.
 ]
 
 { #category : 'accessing' }
@@ -109,6 +104,18 @@ DragonMakeScript >> nameReferenceDictionary [
 DragonMakeScript >> nameReferenceDictionary: anObject [
 
 	nameReferenceDictionary := anObject
+]
+
+{ #category : 'accessing' }
+DragonMakeScript >> references [
+
+	^ references
+]
+
+{ #category : 'accessing' }
+DragonMakeScript >> references: anObject [
+
+	references := anObject
 ]
 
 { #category : 'accessing' }

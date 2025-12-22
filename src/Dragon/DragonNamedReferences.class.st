@@ -5,8 +5,9 @@ Class {
 		'multiReferences',
 		'nameReferenceDictionary'
 	],
-	#category : 'Dragon',
-	#package : 'Dragon'
+	#category : 'Dragon-Serialization',
+	#package : 'Dragon',
+	#tag : 'Serialization'
 }
 
 { #category : 'building' }
@@ -45,7 +46,7 @@ DragonNamedReferences >> nameForReference: aReference [
 	name := withFirstCapitalized first asLowercase asString
 	        , withFirstCapitalized allButFirst.
 
-	self nameReferenceDictionary at: aReference put: name
+	^ name
 ]
 
 { #category : 'accessing' }

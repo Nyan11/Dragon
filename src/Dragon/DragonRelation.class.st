@@ -6,8 +6,9 @@ Class {
 		'target',
 		'dragonAttribute'
 	],
-	#category : 'Dragon',
-	#package : 'Dragon'
+	#category : 'Dragon-Serialization',
+	#package : 'Dragon',
+	#tag : 'Serialization'
 }
 
 { #category : 'accessing' }

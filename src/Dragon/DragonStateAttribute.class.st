@@ -38,14 +38,14 @@ DragonStateAttribute >> initialize [
 { #category : 'as yet unclassified' }
 DragonStateAttribute >> relationsFor: arg1 [
 
+	| tmp1 |
 	self states keysAndValuesDo: [ :arg2 :arg3 |
-			| tmp1 |
-			tmp1 := arg2 isBlock
+			| tmp2 tmp3 |
+			tmp2 := arg2 isBlock
 				        ifTrue: [ arg2 value: arg1 ]
 				        ifFalse: [ arg1 perform: arg2 ].
-			tmp1 ifTrue: [
+			tmp2 ifTrue: [
 					arg3 isSymbol ifTrue: [
-							| tmp3 |
 							tmp3 := DragonRelation new.
 							tmp3
 								source: arg1;
@@ -54,12 +54,11 @@ DragonStateAttribute >> relationsFor: arg1 [
 					nil.
 					^ arg3 relationsFor: arg1 ] ].
 	self defaultState isSymbol ifTrue: [
-			| tmp5 |
-			tmp5 := DragonRelation new.
-			tmp5
+			tmp1 := DragonRelation new.
+			tmp1
 				source: arg1;
 				dragonAttribute: self.
-			^ { (tmp5 target: (arg1 perform: self defaultState)) } ].
+			^ { (tmp1 target: (arg1 perform: self defaultState)) } ].
 	nil.
 	^ self defaultState relationsFor: arg1
 ]

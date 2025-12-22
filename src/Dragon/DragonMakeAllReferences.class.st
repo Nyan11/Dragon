@@ -10,8 +10,9 @@ Class {
 		'multiReferences',
 		'referenceDictionary'
 	],
-	#category : 'Dragon',
-	#package : 'Dragon'
+	#category : 'Dragon-Serialization',
+	#package : 'Dragon',
+	#tag : 'Serialization'
 }
 
 { #category : 'building' }
@@ -100,6 +101,12 @@ DragonMakeAllReferences >> newReferenceFor: anObject [
 DragonMakeAllReferences >> referenceDictionary [
 
 	^ referenceDictionary
+]
+
+{ #category : 'accessing' }
+DragonMakeAllReferences >> references [
+
+	^ self singleReferences , self multiReferences
 ]
 
 { #category : 'accessing' }
