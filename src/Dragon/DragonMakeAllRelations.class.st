@@ -27,7 +27,7 @@ DragonMakeAllRelations >> initialize [
 { #category : 'accessing' }
 DragonMakeAllRelations >> registerRelation: aDragonRelation [
 
-	(self relationAlreadyExists: aDragonRelation) ifTrue: [ ^ self ].
+		(self relationAlreadyExists: aDragonRelation) ifTrue: [ ^ self ].
 	self relations add: aDragonRelation.
 	aDragonRelation target dragonMetaRelations do: [ :relation |
 		self registerRelation: relation ]

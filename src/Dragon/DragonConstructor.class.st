@@ -17,3 +17,9 @@ DragonConstructor >> dragonVisit: aDragonVisitor [
 
 	aDragonVisitor visitConstructor: self
 ]
+
+{ #category : 'testing' }
+DragonConstructor >> hasReferences [
+
+	^ false
+]

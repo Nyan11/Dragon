@@ -60,7 +60,7 @@ DragonSerializationReferenceVisitor >> visitConstructor: aDragonConstructor [
 	aDragonConstructor hasReferences ifFalse: [ ^ self scriptStream << aDragonConstructor constructorString ].
 	
 	self scriptStream << aDragonConstructor beginConstructorString.
-	aDragonConstructor references do: [ :each | self visitReference: each.  self scriptStream << aDragonConstructor separatorConstructorString].
+	aDragonConstructor references do: [ :each | self visitReference: each ] separatedBy: [ self scriptStream << aDragonConstructor separatorConstructorString ].
 	self scriptStream << aDragonConstructor endConstructorString.
 	
 	

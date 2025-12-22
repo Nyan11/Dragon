@@ -15,6 +15,6 @@ Array >> dragonArrayAttributes [
 { #category : '*Dragon' }
 Array >> dragonConstructor [
 
-	self isLiteral ifTrue: [ ^ super dragonConstructor ].
-	^ DragonArrayConstructor new.
+	self isEmpty ifTrue: [ ^ super dragonConstructor ].
+	^ DragonArrayConstructor new
 ]

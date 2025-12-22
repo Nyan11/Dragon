@@ -52,6 +52,12 @@ DragonAbstractAttribute >> initialize [
 ]
 
 { #category : 'accessing' }
+DragonAbstractAttribute >> isForConstructor [
+
+	 ^ isForConstructor
+]
+
+{ #category : 'accessing' }
 DragonAbstractAttribute >> name [
 
 	^ name

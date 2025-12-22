@@ -47,7 +47,36 @@ DragonSerializationTest >> testSerializeForScriptLiteral10 [
 	self
 		assert:
 		(serializer serializeForScript: { $a. 12. 0.9. 'hello'. #world . Object new })
-		equals: '#($a 12 0.9 ''hello'' #world)'
+		equals: '{$a . 
+12 . 
+0.9 . 
+''hello'' . 
+#world . 
+Object new}'
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptLiteral11 [
+
+	| serializer array |
+	serializer := DragonSerialization new.
+	array := {
+					 $a.
+					 12.
+					 0.9.
+					 'hello'.
+					 #world.
+					 Object new }.
+	array at: 1 put: array.
+	
+	self
+		assert: (serializer serializeForScript: array)
+		equals: '{$a . 
+12 . 
+0.9 . 
+''hello'' . 
+#world . 
+Object new}'
 ]
 
 { #category : 'tests' }
@@ -125,7 +154,11 @@ DragonSerializationTest >> testSerializeForScriptLiteral9 [
 	serializer := DragonSerialization new.
 	self
 		assert: (serializer serializeForScript: { $a . 12 . 0.9 . 'hello' . #world })
-		equals: '#($a 12 0.9 ''hello'' #world)'
+		equals: '{$a . 
+12 . 
+0.9 . 
+''hello'' . 
+#world}'
 ]
 
 { #category : 'tests' }

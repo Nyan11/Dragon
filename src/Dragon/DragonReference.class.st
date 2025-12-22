@@ -7,15 +7,23 @@ Class {
 		'nextReferencesWithAttribute',
 		'constructor'
 	],
-	#category : 'Dragon-Serialization',
+	#category : 'Dragon-Description',
 	#package : 'Dragon',
-	#tag : 'Serialization'
+	#tag : 'Description'
 }
 
 { #category : 'adding' }
-DragonReference >> addNextReference: aDragonReference withAttribute: aDragonSingleAttribute [
+DragonReference >> addNextReference: aDragonReference withAttribute: aDragonAttribute [
 
-	self nextReferencesWithAttribute at: aDragonReference put: aDragonSingleAttribute.
+	aDragonAttribute isForConstructor
+		ifTrue: [
+				self constructor
+					addNextReference: aDragonReference
+					withAttribute: aDragonAttribute ]
+		ifFalse: [
+				self nextReferencesWithAttribute
+					at: aDragonReference
+					put: aDragonAttribute ]
 ]
 
 { #category : 'accessing' }
