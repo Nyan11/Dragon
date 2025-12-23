@@ -48,7 +48,7 @@ DragonReference >> dragonVisit: aDragonVisitor [
 DragonReference >> initialize [
 
 	super initialize.
-	nextReferencesWithAttribute := Dictionary new.
+	nextReferencesWithAttribute := OrderedDictionary new
 ]
 
 { #category : 'accessing' }

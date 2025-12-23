@@ -1,6 +1,6 @@
 Class {
 	#name : 'DragonArrayConstructor',
-	#superclass : 'DragonConstructor',
+	#superclass : 'DragonConstructorWithReferences',
 	#instVars : [
 		'objectsOfArray'
 	],

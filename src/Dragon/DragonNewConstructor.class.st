@@ -1,5 +1,5 @@
 Class {
-	#name : 'DragonBasicConstructor',
+	#name : 'DragonNewConstructor',
 	#superclass : 'DragonConstructor',
 	#instVars : [
 		'object'
@@ -10,19 +10,19 @@ Class {
 }
 
 { #category : 'converting' }
-DragonBasicConstructor >> constructorString [
+DragonNewConstructor >> constructorString [
 
 	^ '<1s> new' expandMacrosWith: self object class printString
 ]
 
 { #category : 'accessing' }
-DragonBasicConstructor >> object [
+DragonNewConstructor >> object [
 
 	^ object
 ]
 
 { #category : 'accessing' }
-DragonBasicConstructor >> object: anObject [
+DragonNewConstructor >> object: anObject [
 
 	object := anObject
 ]

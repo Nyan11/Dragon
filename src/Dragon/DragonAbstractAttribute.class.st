@@ -22,15 +22,6 @@ DragonAbstractAttribute >> beForConstructor [
 	isForConstructor := true
 ]
 
-{ #category : 'compiling' }
-DragonAbstractAttribute >> compileDragonOn: aClass withClassification: aClassification [
-
-	| macroString method |
-	macroString := 'dragon<1s><r><r><t><metaDragon><r><r><t>^(<2s>)<r>'.
-	method := macroString expandMacrosWith: self name capitalized with: self dragonSerializeForScript.
-	aClass compile: method classified: aClassification
-]
-
 { #category : 'as yet unclassified' }
 DragonAbstractAttribute >> dragonEquals: arg1 [
 
@@ -49,6 +40,12 @@ DragonAbstractAttribute >> initialize [
 
 	super initialize.
 	isForConstructor := false
+]
+
+{ #category : 'testing' }
+DragonAbstractAttribute >> isComplexSetter [
+
+	^ (self setter occurrencesOf: $:) > 1
 ]
 
 { #category : 'accessing' }
@@ -70,7 +67,13 @@ DragonAbstractAttribute >> name: anObject [
 ]
 
 { #category : 'as yet unclassified' }
-DragonAbstractAttribute >> relationsFor: arg1 [
+DragonAbstractAttribute >> relationsFor: anObject [
+
+	^ self explicitRequirement
+]
+
+{ #category : 'testing' }
+DragonAbstractAttribute >> setter [
 
 	^ self explicitRequirement
 ]

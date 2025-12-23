@@ -44,8 +44,8 @@ DragonSeparateRelations >> build [
 DragonSeparateRelations >> initialize [
 
 	super initialize.
-	sourcesDictionary := Dictionary new.
-	targetsDictionary := Dictionary new
+	sourcesDictionary := OrderedDictionary new.
+	targetsDictionary := OrderedDictionary new
 ]
 
 { #category : 'accessing' }

@@ -23,7 +23,7 @@ DragonNamedReferences >> build [
 DragonNamedReferences >> initialize [
 
 	super initialize.
-	nameReferenceDictionary := Dictionary new
+	nameReferenceDictionary := OrderedDictionary new
 ]
 
 { #category : 'accessing' }

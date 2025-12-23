@@ -74,7 +74,7 @@ DragonMakeAllReferences >> initialize [
 	super initialize.
 	singleReferences := OrderedCollection new.
 	multiReferences := OrderedCollection new.
-	referenceDictionary := Dictionary new
+	referenceDictionary := OrderedDictionary new
 ]
 
 { #category : 'accessing' }

@@ -6,10 +6,10 @@ Class {
 	#tag : 'Description'
 }
 
-{ #category : 'converting' }
-DragonConstructor >> constructorString [
+{ #category : 'testing' }
+DragonConstructor class >> isAbstract [
 
-	^ self explicitRequirement
+	^ self class == DragonConstructor
 ]
 
 { #category : 'as yet unclassified' }

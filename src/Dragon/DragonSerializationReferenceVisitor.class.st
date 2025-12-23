@@ -25,6 +25,18 @@ DragonSerializationReferenceVisitor >> initialize [
 	scriptStream := WriteStream on: String new
 ]
 
+{ #category : 'visiting' }
+DragonSerializationReferenceVisitor >> makeAttribute: attribute andReference: reference [
+
+	attribute isComplexSetter ifFalse: [
+			attribute dragonVisit: self.
+			reference dragonVisit: self.
+			^ self ].
+
+	self scriptStream << (attribute setter value: (self extractArgumentsStringOf: reference))
+
+]
+
 { #category : 'accessing' }
 DragonSerializationReferenceVisitor >> nameReferenceDictionary [
 
@@ -50,7 +62,8 @@ DragonSerializationReferenceVisitor >> scriptStream [
 ]
 
 { #category : 'visiting' }
-DragonSerializationReferenceVisitor >> visitAttribute: aDragonSingleAttribute [ 
+DragonSerializationReferenceVisitor >> visitAttribute: aDragonSingleAttribute [
+	aDragonSingleAttribute setter.
 	self scriptStream << aDragonSingleAttribute setter.
 ]
 
@@ -70,7 +83,10 @@ DragonSerializationReferenceVisitor >> visitConstructor: aDragonConstructor [
 { #category : 'visiting' }
 DragonSerializationReferenceVisitor >> visitReference: aReference [
 
-	| nameOrConstructor |
+	| alreadyCreated nameOrConstructor |
+	alreadyCreated := self referenceHasBeenExecuted: aReference.
+	alreadyCreated ifFalse: [ self scriptStream << '(' ].
+
 	self scriptStream << '('.
 	nameOrConstructor := self nameReferenceDictionary
 		                     at: aReference
@@ -78,14 +94,17 @@ DragonSerializationReferenceVisitor >> visitReference: aReference [
 		                     ifAbsent: [
 		                     aReference constructor dragonVisit: self ].
 	self scriptStream << ')'.
-	aReference nextReferencesWithAttribute ifEmpty: [ ^ self ].
-	(self referenceHasBeenExecuted: aReference) ifTrue: [ ^ self ].
+	alreadyCreated ifTrue: [ ^ self ].
+
+	aReference nextReferencesWithAttribute ifEmpty: [
+			self scriptStream << ')'.
+			^ self ].
+
 	self executedDictionary at: aReference put: true.
 	aReference nextReferencesWithAttribute keysAndValuesDo: [
 			:reference
 			:attribute |
-			attribute dragonVisit: self.
-			reference dragonVisit: self.
+			self makeAttribute: attribute andReference: reference.
 			self scriptStream << ';' ].
-	self scriptStream << 'yourself'
+	self scriptStream << 'yourself)'
 ]

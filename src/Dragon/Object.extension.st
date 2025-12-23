@@ -4,7 +4,7 @@ Extension { #name : 'Object' }
 Object >> dragonConstructor [
 
 	self isLiteral ifTrue: [ ^ DragonLiteralConstructor new string: self printString  ].
-	^ DragonBasicConstructor new object: self
+	^ DragonNewConstructor new object: self
 ]
 
 { #category : '*Dragon' }
@@ -16,8 +16,13 @@ Object >> dragonEquals: anObject [
 { #category : '*Dragon' }
 Object >> dragonMetaAttributes [
 
-	^ (Pragma allNamed: #metaDragon from: self class to: Object)
-		  collect: [ :p | p method valueWithReceiver: self ]
+	| methodsDict |
+	methodsDict := Dictionary new.
+	(Pragma allNamed: #metaDragon from: self class to: Object) do: [ :p |
+			  methodsDict
+				  at: p method selector
+				  ifAbsentPut: [ p method valueWithReceiver: self ] ].
+	^ methodsDict values
 ]
 
 { #category : '*Dragon' }

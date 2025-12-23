@@ -3,7 +3,8 @@ Class {
 	#superclass : 'DragonAbstractTypedAttribute',
 	#instVars : [
 		'getterForAll',
-		'addOne'
+		'addOne',
+		'setterForOne'
 	],
 	#category : 'Dragon-Description',
 	#package : 'Dragon',
@@ -41,14 +42,32 @@ DragonMultipleAttribute >> isMultiple [
 ]
 
 { #category : 'as yet unclassified' }
-DragonMultipleAttribute >> relationsFor: arg1 [
+DragonMultipleAttribute >> relationsFor: anObject [
 
-	^ (arg1 perform: self getterForAll) collect: [ :arg2 |
-			  | tmp1 |
-			  tmp1 := DragonRelation new.
-			  tmp1
-				  source: arg1;
+	| elements |
+	elements := self getterForAll isBlock ifTrue: [ self getterForAll value: anObject ] ifFalse: [ anObject perform: self getterForAll].
+	^ elements collect: [ :element |
+			  DragonRelation new
+				  source: anObject;
 				  dragonAttribute: self;
-				  target: arg2;
+				  target: element;
 				  yourself ]
+]
+
+{ #category : 'accessing' }
+DragonMultipleAttribute >> setter [
+
+	^ setterForOne
+]
+
+{ #category : 'accessing' }
+DragonMultipleAttribute >> setterForOne [
+
+	^ setterForOne
+]
+
+{ #category : 'accessing' }
+DragonMultipleAttribute >> setterForOne: aSymbol [
+
+	setterForOne := aSymbol
 ]
