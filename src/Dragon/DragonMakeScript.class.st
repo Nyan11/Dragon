@@ -59,7 +59,7 @@ DragonMakeScript >> buildVariableConstructorsString [
 
 	| variableConstructors |
 	variableConstructors := ''.
-	self nameReferenceDictionary keysAndValuesDo: [ :ref :name |
+	self referencesAndNamesDictionary keysAndValuesDo: [ :ref :name |
 			| visitor |
 			visitor := self makeNewVisitor.
 			ref constructor dragonVisit: visitor.
@@ -74,12 +74,12 @@ DragonMakeScript >> buildVariableConstructorsString [
 DragonMakeScript >> buildVariablesString [
 
 	| variablesString |
-	self nameReferenceDictionary ifEmpty: [ ^ '' ].
-	self nameReferenceDictionary size = 1 ifTrue: [
+	self referencesAndNamesDictionary ifEmpty: [ ^ '' ].
+	self referencesAndNamesDictionary size = 1 ifTrue: [
 			^ '| <1s> |' expandMacrosWith:
-				  self nameReferenceDictionary values first ].
+				  self referencesAndNamesDictionary values first ].
 	variablesString := '| <1s> |' expandMacrosWith:
-		                   (self nameReferenceDictionary values reduce: [
+		                   (self referencesAndNamesDictionary values reduce: [
 			                    :a
 			                    :b | '<1s> <2s>' expandMacrosWith: a with: b ]).
 
@@ -90,14 +90,8 @@ DragonMakeScript >> buildVariablesString [
 DragonMakeScript >> makeNewVisitor [
 
 	^ DragonSerializationReferenceVisitor new
-				           nameReferenceDictionary: self nameReferenceDictionary;
+				           nameReferenceDictionary: self referencesAndNamesDictionary;
 				           yourself.
-]
-
-{ #category : 'accessing' }
-DragonMakeScript >> nameReferenceDictionary [
-
-	^ nameReferenceDictionary
 ]
 
 { #category : 'accessing' }
@@ -116,6 +110,12 @@ DragonMakeScript >> references [
 DragonMakeScript >> references: anObject [
 
 	references := anObject
+]
+
+{ #category : 'accessing' }
+DragonMakeScript >> referencesAndNamesDictionary [
+
+	^ nameReferenceDictionary
 ]
 
 { #category : 'accessing' }

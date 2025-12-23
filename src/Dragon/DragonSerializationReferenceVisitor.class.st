@@ -17,30 +17,46 @@ DragonSerializationReferenceVisitor >> executedDictionary [
 	^ executedDictionary
 ]
 
+{ #category : 'as yet unclassified' }
+DragonSerializationReferenceVisitor >> extractArgumentsStringOf: aDragonReference [
+
+	| previsousWriteStream returnValues |
+	previsousWriteStream := self scriptStream.
+	returnValues := aDragonReference nextReferenceArguments collect: [ :each |
+			| stream |
+			stream := self newWriteStream.
+			self scriptStream: stream.
+			each dragonVisit: self.
+			stream contents ].
+	self scriptStream: previsousWriteStream.
+	^ returnValues
+]
+
 { #category : 'initialization' }
 DragonSerializationReferenceVisitor >> initialize [
 
 	super initialize.
 	executedDictionary := Dictionary new.
-	scriptStream := WriteStream on: String new
+	scriptStream := self newWriteStream
 ]
 
 { #category : 'visiting' }
 DragonSerializationReferenceVisitor >> makeAttribute: attribute andReference: reference [
 
+	| arguments keyWords |
 	attribute isComplexSetter ifFalse: [
 			attribute dragonVisit: self.
 			reference dragonVisit: self.
 			^ self ].
 
-	self scriptStream << (attribute setter value: (self extractArgumentsStringOf: reference))
+	arguments := (self extractArgumentsStringOf: reference).
+	keyWords := attribute setter separateKeywords splitOn: '  '.
+	
+	keyWords withIndexDo: [ :word : index | self scriptStream << word.
+		self scriptStream << '('.
+		self scriptStream << (arguments at: index).
+		self scriptStream << ')'. ].
 
-]
-
-{ #category : 'accessing' }
-DragonSerializationReferenceVisitor >> nameReferenceDictionary [
-
-	^ nameReferenceDictionary
 ]
 
 { #category : 'accessing' }
@@ -49,16 +65,34 @@ DragonSerializationReferenceVisitor >> nameReferenceDictionary: anObject [
 	nameReferenceDictionary := anObject
 ]
 
+{ #category : 'initialization' }
+DragonSerializationReferenceVisitor >> newWriteStream [
+
+	^ WriteStream on: String new
+]
+
 { #category : 'as yet unclassified' }
 DragonSerializationReferenceVisitor >> referenceHasBeenExecuted: aReference [
 
 	self executedDictionary at: aReference ifPresent: [ ^ true ] ifAbsent: [ ^ false ]
 ]
 
+{ #category : 'accessing' }
+DragonSerializationReferenceVisitor >> referencesAndNamesDictionary [
+
+	^ nameReferenceDictionary
+]
+
 { #category : 'initialization' }
 DragonSerializationReferenceVisitor >> scriptStream [
 
 	^ scriptStream
+]
+
+{ #category : 'initialization' }
+DragonSerializationReferenceVisitor >> scriptStream: anObject [
+
+	scriptStream := anObject
 ]
 
 { #category : 'visiting' }
@@ -88,7 +122,7 @@ DragonSerializationReferenceVisitor >> visitReference: aReference [
 	alreadyCreated ifFalse: [ self scriptStream << '(' ].
 
 	self scriptStream << '('.
-	nameOrConstructor := self nameReferenceDictionary
+	nameOrConstructor := self referencesAndNamesDictionary
 		                     at: aReference
 		                     ifPresent: [ :name | self scriptStream << name ]
 		                     ifAbsent: [

@@ -26,8 +26,9 @@ DragonRelation >> dragonAttribute: anObject [
 { #category : 'testing' }
 DragonRelation >> isSimilarTo: aDragonRelation [
 
-	^ (self target dragonEquals: aDragonRelation target) and: [
-		self source dragonEquals: aDragonRelation source ]
+	^ ((self target dragonEquals: aDragonRelation target) and: [
+		   self source dragonEquals: aDragonRelation source ]) and: [
+		  self dragonAttribute dragonEquals: aDragonRelation dragonAttribute ]
 ]
 
 { #category : 'accessing' }

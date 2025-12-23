@@ -13,9 +13,10 @@ Class {
 { #category : 'adding' }
 DragonAssociationConstructor >> addNextReference: aDragonReference withAttribute: aDragonAttribute [
 
-	(aDragonAttribute getter = #value) ifTrue: [ self valueReference: aDragonReference ].
+	aDragonAttribute getter = #value ifTrue: [
+		self valueReference: aDragonReference.
+		^ self  ].
 	self keyReference: aDragonReference
-
 ]
 
 { #category : 'accessing' }

@@ -35,6 +35,12 @@ DragonStateAttribute >> initialize [
 	states := Dictionary new
 ]
 
+{ #category : 'testing' }
+DragonStateAttribute >> isState [
+
+	^ true
+]
+
 { #category : 'as yet unclassified' }
 DragonStateAttribute >> relationsFor: arg1 [
 
@@ -42,7 +48,7 @@ DragonStateAttribute >> relationsFor: arg1 [
 	self states keysAndValuesDo: [ :arg2 :arg3 |
 			| tmp2 tmp3 |
 			tmp2 := arg2 isBlock
-				        ifTrue: [ arg2 value: arg1 ]
+				        ifTrue: [ arg2 valueWithPossibleArgument: arg1 ]
 				        ifFalse: [ arg1 perform: arg2 ].
 			tmp2 ifTrue: [
 					arg3 isSymbol ifTrue: [

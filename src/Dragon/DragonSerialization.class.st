@@ -31,7 +31,7 @@ DragonSerialization >> serializeForScript: anObject [
 		              references: multipleRefsObjects references;
 		              rootReference: multipleRefsObjects rootReference;
 		              nameReferenceDictionary:
-			              namedReferences nameReferenceDictionary;
+			              namedReferences referencesAndNamesDictionary;
 		              build.
 	^ makeScript serializedString
 ]

@@ -3,7 +3,7 @@ Class {
 	#superclass : 'DragonSerializationStep',
 	#instVars : [
 		'multiReferences',
-		'nameReferenceDictionary'
+		'referencesAndNamesDictionary'
 	],
 	#category : 'Dragon-Serialization',
 	#package : 'Dragon',
@@ -13,8 +13,15 @@ Class {
 { #category : 'building' }
 DragonNamedReferences >> build [
 
+	self buildNameBasedOnClass.
+	self resolveConflicts
+]
+
+{ #category : 'building' }
+DragonNamedReferences >> buildNameBasedOnClass [
+
 	self multiReferences do: [ :ref |
-		self nameReferenceDictionary
+		self referencesAndNamesDictionary
 			at: ref
 			put: (self nameForReference: ref) ]
 ]
@@ -23,7 +30,7 @@ DragonNamedReferences >> build [
 DragonNamedReferences >> initialize [
 
 	super initialize.
-	nameReferenceDictionary := OrderedDictionary new
+	referencesAndNamesDictionary := OrderedDictionary new
 ]
 
 { #category : 'accessing' }
@@ -50,7 +57,31 @@ DragonNamedReferences >> nameForReference: aReference [
 ]
 
 { #category : 'accessing' }
-DragonNamedReferences >> nameReferenceDictionary [
+DragonNamedReferences >> referencesAndNamesDictionary [
 
-	^ nameReferenceDictionary
+	^ referencesAndNamesDictionary
+]
+
+{ #category : 'building' }
+DragonNamedReferences >> resolveConflicts [
+
+	| potentialConflicts realConflicts |
+	potentialConflicts := Dictionary new.
+	self referencesAndNamesDictionary keysAndValuesDo: [ :ref :name |
+			potentialConflicts
+				at: name
+				ifPresent: [ :col | col add: ref ]
+				ifAbsentPut: [ OrderedCollection with: ref ] ].
+	realConflicts := potentialConflicts associations select: [ :asso |
+		                 asso value size > 1 ].
+	realConflicts do: [ :asso |
+			| name refs counter |
+			counter := 1.
+			name := asso key.
+			refs := asso value.
+			refs do: [ :each |
+					self referencesAndNamesDictionary
+						at: each
+						put: name , counter printString.
+					counter := counter + 1 ] ]
 ]

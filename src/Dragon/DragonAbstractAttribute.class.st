@@ -23,10 +23,9 @@ DragonAbstractAttribute >> beForConstructor [
 ]
 
 { #category : 'as yet unclassified' }
-DragonAbstractAttribute >> dragonEquals: arg1 [
+DragonAbstractAttribute >> dragonEquals: aDragonAttribute [
 
-	self class = arg1 class ifFalse: [ ^ false ].
-	^ self name = arg1 name
+	^ self setter = aDragonAttribute setter
 ]
 
 { #category : 'as yet unclassified' }
@@ -45,6 +44,7 @@ DragonAbstractAttribute >> initialize [
 { #category : 'testing' }
 DragonAbstractAttribute >> isComplexSetter [
 
+	self setter ifNil: [ ^ false ].
 	^ (self setter occurrencesOf: $:) > 1
 ]
 
@@ -52,6 +52,12 @@ DragonAbstractAttribute >> isComplexSetter [
 DragonAbstractAttribute >> isForConstructor [
 
 	 ^ isForConstructor
+]
+
+{ #category : 'testing' }
+DragonAbstractAttribute >> isState [
+
+	^ false
 ]
 
 { #category : 'accessing' }

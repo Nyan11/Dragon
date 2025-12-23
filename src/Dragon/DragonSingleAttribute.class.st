@@ -19,7 +19,8 @@ DragonSingleAttribute >> getter [
 { #category : 'accessing' }
 DragonSingleAttribute >> getter: anObject [
 
-	getter := anObject
+	getter := anObject.
+	self setter ifNil: [ self setter: anObject asMutator ]
 ]
 
 { #category : 'testing' }

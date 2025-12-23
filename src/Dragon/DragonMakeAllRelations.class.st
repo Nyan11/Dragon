@@ -27,7 +27,7 @@ DragonMakeAllRelations >> initialize [
 { #category : 'accessing' }
 DragonMakeAllRelations >> registerRelation: aDragonRelation [
 
-		(self relationAlreadyExists: aDragonRelation) ifTrue: [ ^ self ].
+	(self shouldRegisterThisRelation: aDragonRelation) ifFalse: [ ^ self ].
 	self relations add: aDragonRelation.
 	aDragonRelation target dragonMetaRelations do: [ :relation |
 		self registerRelation: relation ]
@@ -56,4 +56,13 @@ DragonMakeAllRelations >> rootObject [
 DragonMakeAllRelations >> rootObject: anObject [
 
 	rootObject := anObject
+]
+
+{ #category : 'accessing' }
+DragonMakeAllRelations >> shouldRegisterThisRelation: aDragonRelation [
+
+	aDragonRelation dragonAttribute isState ifTrue: [ ^ false ].
+	aDragonRelation dragonAttribute isMultiple ifTrue: [ ^ true ].
+	(self relationAlreadyExists: aDragonRelation) ifTrue: [ ^ false ].
+	^ true
 ]

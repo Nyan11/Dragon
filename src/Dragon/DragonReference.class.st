@@ -5,7 +5,8 @@ Class {
 		'object',
 		'relations',
 		'nextReferencesWithAttribute',
-		'constructor'
+		'constructor',
+		'nextReferenceArguments'
 	],
 	#category : 'Dragon-Description',
 	#package : 'Dragon',
@@ -15,15 +16,14 @@ Class {
 { #category : 'adding' }
 DragonReference >> addNextReference: aDragonReference withAttribute: aDragonAttribute [
 
-	aDragonAttribute isForConstructor
-		ifTrue: [
-				self constructor
-					addNextReference: aDragonReference
-					withAttribute: aDragonAttribute ]
-		ifFalse: [
-				self nextReferencesWithAttribute
-					at: aDragonReference
-					put: aDragonAttribute ]
+	aDragonAttribute isForConstructor ifTrue: [
+			^ self constructor
+				  addNextReference: aDragonReference
+				  withAttribute: aDragonAttribute ].
+	
+	self nextReferencesWithAttribute
+		at: aDragonReference
+		put: aDragonAttribute
 ]
 
 { #category : 'accessing' }
@@ -48,7 +48,12 @@ DragonReference >> dragonVisit: aDragonVisitor [
 DragonReference >> initialize [
 
 	super initialize.
-	nextReferencesWithAttribute := OrderedDictionary new
+	nextReferencesWithAttribute := OrderedDictionary new.
+]
+
+{ #category : 'accessing' }
+DragonReference >> nextReferenceArguments [
+	^ self constructor references
 ]
 
 { #category : 'accessing' }

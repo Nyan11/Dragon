@@ -48,6 +48,76 @@ DragonSerializationTest >> objectToTest3 [
 ]
 
 { #category : 'tests' }
+DragonSerializationTest >> objectToTest4 [
+
+	| obj1 obj2 |
+	obj1 := DragonTestObject new
+		        name: #test;
+		        yourself.
+	obj2 := DragonTestObject new
+		        name: obj1;
+		        yourself.
+	^ {
+		  obj1.
+		  obj1.
+		  obj2.
+		  obj2 } -> '| dragonTestObject1 dragonTestObject2 |
+dragonTestObject1 := DragonTestObject new.
+dragonTestObject2 := DragonTestObject new.
+{(dragonTestObject1
+   name: #test;
+   yourself) . 
+dragonTestObject1 . 
+(dragonTestObject2
+   name: dragonTestObject1;
+   yourself) . 
+dragonTestObject2}'
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptAssociation1 [
+
+	| serializer |
+	serializer := DragonSerialization new.
+	self
+		assert: (serializer serializeForScript: (1->2))
+		equals: '1 -> 2'
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptAssociation2 [
+
+	| serializer |
+	serializer := DragonSerialization new.
+	self
+		assert: (serializer serializeForScript: 1 -> Object new)
+		equals: '1 -> Object new'
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptAssociation3 [
+
+	| serializer |
+	serializer := DragonSerialization new.
+	self
+		assert: (serializer serializeForScript: Object new -> Object new)
+		equals: 'Object new -> Object new'
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptAssociation4 [
+
+	| serializer obj |
+	serializer := DragonSerialization new.
+	obj := Object new.
+	self
+		assert: (serializer serializeForScript: obj -> obj)
+		equals: '| object |
+object := Object new.
+object -> object'
+]
+
+{ #category : 'tests' }
 DragonSerializationTest >> testSerializeForScriptCollection1 [
 
 	| serializer |
@@ -145,12 +215,62 @@ DragonSerializationTest >> testSerializeForScriptCollection4 [
 
 	self
 		assert: (serializer serializeForScript: collection)
-		equals: 'Set new
-   add: 5;
-   add: 7;
-   add: 9;
-   add: 11;
-   add: 13;
+		equals: 'Bag new
+   add: 1 withOccurrences: 5;
+   yourself'
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptCollection5 [
+
+	| serializer obj1 |
+	serializer := DragonSerialization new.
+	obj1 := Object new.
+	self
+		assert: (serializer serializeForScript: {obj1 . obj1. obj1})
+		equals: '| object |
+object := Object new.
+{object . 
+object . 
+object}'
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptCollection6 [
+
+	| serializer collection |
+	serializer := DragonSerialization new.
+	collection := Dictionary new.
+	collection at: 1 put: Object new.
+	collection at: 2 put: Object new.
+	collection at: 3 put: Object new.
+	self
+		assert: (serializer serializeForScript: collection)
+		equals: 'Dictionary new
+   at: 1 put: Object new;
+   at: 2 put: Object new;
+   at: 3 put: Object new;
+   yourself'
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptCollection7 [
+
+	| serializer collection obj |
+	serializer := DragonSerialization new.
+	collection := Dictionary new.
+	obj := Object new.
+	collection at: 1 put: obj.
+	collection at: 2 put: obj.
+	collection at: 3 put: obj.
+	self
+		assert: (serializer serializeForScript: collection)
+		equals: '| object |
+object := Object new.
+Dictionary new
+   at: 1 put: object;
+   at: 2 put: object;
+   at: 3 put: object;
    yourself'
 ]
 
@@ -274,4 +394,14 @@ DragonSerializationTest >> testSerializeForScriptObject3 [
 	self
 		assert: (serializer serializeForScript: self objectToTest3 key)
 		equals: self objectToTest3 value
+]
+
+{ #category : 'tests' }
+DragonSerializationTest >> testSerializeForScriptObject4 [
+
+	| serializer |
+	serializer := DragonSerialization new.
+	self
+		assert: (serializer serializeForScript: self objectToTest4 key)
+		equals: self objectToTest4 value
 ]
