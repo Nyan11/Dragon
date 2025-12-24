@@ -9,20 +9,9 @@ Class {
 { #category : 'private' }
 DragonSerialization >> serializeForScript: anObject [
 
-	| makeAllRelations separateRelations multipleRefsObjects makeScript namedReferences |
-	makeAllRelations := DragonMakeAllRelations new
-		                    rootObject: anObject;
-		                    build.
-	separateRelations := DragonSeparateRelations new
-		                     relations: makeAllRelations relations;
-		                     build.
-	multipleRefsObjects := DragonMakeAllReferences new
-		                       sourcesDictionary:
-			                       separateRelations sourcesDictionary;
-		                       targetsDictionary:
-			                       separateRelations targetsDictionary;
-		                       rootObject: anObject;
-		                       build.
+	| multipleRefsObjects makeScript namedReferences |
+	
+	multipleRefsObjects := self stepsToCreateReferences: anObject.
 	namedReferences := DragonNamedReferences new
 		                   multiReferences:
 			                   multipleRefsObjects multiReferences;
@@ -33,5 +22,26 @@ DragonSerialization >> serializeForScript: anObject [
 		              nameReferenceDictionary:
 			              namedReferences referencesAndNamesDictionary;
 		              build.
+
 	^ makeScript serializedString
+]
+
+{ #category : 'private' }
+DragonSerialization >> stepsToCreateReferences: aRootObject [
+
+	| makeAllRelations separateRelations multipleRefsObjects |
+	makeAllRelations := DragonMakeAllRelations new
+		                    rootObject: aRootObject;
+		                    build.
+	separateRelations := DragonSeparateRelations new
+		                     relations: makeAllRelations relations;
+		                     build.
+	multipleRefsObjects := DragonMakeAllReferences new
+		                       sourcesDictionary:
+			                       separateRelations sourcesDictionary;
+		                       targetsDictionary:
+			                       separateRelations targetsDictionary;
+		                       rootObject: aRootObject;
+		                       build.
+	^ multipleRefsObjects
 ]

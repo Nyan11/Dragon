@@ -61,8 +61,9 @@ DragonMakeAllRelations >> rootObject: anObject [
 { #category : 'accessing' }
 DragonMakeAllRelations >> shouldRegisterThisRelation: aDragonRelation [
 
-	aDragonRelation dragonAttribute isState ifTrue: [ ^ false ].
 	aDragonRelation dragonAttribute isMultiple ifTrue: [ ^ true ].
 	(self relationAlreadyExists: aDragonRelation) ifTrue: [ ^ false ].
+	(aDragonRelation dragonAttribute verifyObjectIsDefault: aDragonRelation target)
+		ifTrue: [ ^ false ].
 	^ true
 ]

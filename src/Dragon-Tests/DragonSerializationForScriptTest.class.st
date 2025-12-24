@@ -11,6 +11,25 @@ DragonSerializationForScriptTest class >> isAbstract [
 	^ self == DragonSerializationForScriptTest
 ]
 
+{ #category : 'tests' }
+DragonSerializationForScriptTest >> assertScriptSelector: aSelector [
+
+	| serializer scriptString objectToSerialize serializedScriptString |
+	serializer := DragonSerialization new.
+	scriptString := self perform: aSelector.
+	objectToSerialize := OpalCompiler new
+		                     source: scriptString;
+		                     evaluate.
+	serializedScriptString := serializer serializeForScript:
+		                          objectToSerialize.
+
+	self assert: serializedScriptString equals: scriptString.
+	{
+		aSelector.
+		serializedScriptString.
+		scriptString }
+]
+
 { #category : 'as yet unclassified' }
 DragonSerializationForScriptTest >> inspectTests [
 
@@ -30,18 +49,5 @@ DragonSerializationForScriptTest >> testScriptMethods [
 	self assert: methods isNotEmpty.
 
 	^ methods shuffle collect: [ :method |
-			  | serializer scriptString objectToSerialize serializedScriptString |
-			  serializer := DragonSerialization new.
-			  scriptString := self perform: method selector.
-			  objectToSerialize := OpalCompiler new
-				                       source: scriptString;
-				                       evaluate.
-			  serializedScriptString := serializer serializeForScript:
-				                            objectToSerialize.
-
-			  self assert: serializedScriptString equals: scriptString.
-			  {
-				  method.
-				  serializedScriptString.
-				  scriptString } ]
+		  self assertScriptSelector: method selector ]
 ]

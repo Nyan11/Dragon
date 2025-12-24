@@ -38,6 +38,14 @@ DragonMakeAllReferences >> build [
 
 	self buildReferences.
 	self buildReferenceGraph.
+	self buildInternalStates.
+]
+
+{ #category : 'building' }
+DragonMakeAllReferences >> buildInternalStates [
+
+	self references do: [ :each |
+		each internalStates: each object dragonMetaInternalStates ]
 ]
 
 { #category : 'building' }

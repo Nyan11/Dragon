@@ -25,7 +25,6 @@ DragonMockObject >> dragonSlot1 [
 		  getter: #slot1;
 		  setter: #slot1:;
 		  types: { Object };
-		  defaultValue: nil;
 		  yourself
 ]
 
@@ -47,9 +46,9 @@ DragonMockObject >> dragonSlot3 [
 	<metaDragon>
 	^ DragonStateAttribute new
 		  name: 'Slot3';
-		  if: [ self slot3 = #stateA ] stateIs: #stateAForSlot3;
-		  if: [ self slot3 = #stateB ] stateIs: #stateBforSlot3;
-		  if: [ self slot3 = #stateC ] stateIs: #stateCforSlot3;
+		  defaultState: [ self slot3 = #stateA ];
+		  if: [ self slot3 = #stateB ] stateIs: #stateBForSlot3;
+		  if: [ self slot3 = #stateC ] stateIs: #stateCForSlot3;
 		  yourself
 ]
 

@@ -7,6 +7,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+DragonIgnoreAttribute >> internalStatesFor: anObject [
+
+	^ {  }
+]
+
+{ #category : 'as yet unclassified' }
 DragonIgnoreAttribute >> relationsFor: anObject [
 
 	^ {  }

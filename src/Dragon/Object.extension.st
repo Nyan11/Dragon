@@ -26,6 +26,13 @@ Object >> dragonMetaAttributes [
 ]
 
 { #category : '*Dragon' }
+Object >> dragonMetaInternalStates [
+
+	^ self dragonMetaAttributes flatCollect: [ :each |
+		  each internalStatesFor: self ]
+]
+
+{ #category : '*Dragon' }
 Object >> dragonMetaRelations [
 
 	^ self dragonMetaAttributes flatCollect: [ :each |

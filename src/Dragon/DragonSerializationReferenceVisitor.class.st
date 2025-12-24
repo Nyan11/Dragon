@@ -44,19 +44,20 @@ DragonSerializationReferenceVisitor >> initialize [
 DragonSerializationReferenceVisitor >> makeAttribute: attribute andReference: reference [
 
 	| arguments keyWords |
+
 	attribute isComplexSetter ifFalse: [
 			attribute dragonVisit: self.
 			reference dragonVisit: self.
 			^ self ].
 
-	arguments := (self extractArgumentsStringOf: reference).
+	arguments := self extractArgumentsStringOf: reference.
 	keyWords := attribute setter separateKeywords splitOn: '  '.
-	
-	keyWords withIndexDo: [ :word : index | self scriptStream << word.
-		self scriptStream << '('.
-		self scriptStream << (arguments at: index).
-		self scriptStream << ')'. ].
 
+	keyWords withIndexDo: [ :word :index |
+			self scriptStream << word.
+			self scriptStream << '('.
+			self scriptStream << (arguments at: index).
+			self scriptStream << ')' ]
 ]
 
 { #category : 'accessing' }
@@ -117,7 +118,7 @@ DragonSerializationReferenceVisitor >> visitConstructor: aDragonConstructor [
 { #category : 'visiting' }
 DragonSerializationReferenceVisitor >> visitReference: aReference [
 
-	| alreadyCreated nameOrConstructor |
+	| alreadyCreated nameOrConstructor shouldAddYourself |
 	alreadyCreated := self referenceHasBeenExecuted: aReference.
 	alreadyCreated ifFalse: [ self scriptStream << '(' ].
 
@@ -130,15 +131,21 @@ DragonSerializationReferenceVisitor >> visitReference: aReference [
 	self scriptStream << ')'.
 	alreadyCreated ifTrue: [ ^ self ].
 
-	aReference nextReferencesWithAttribute ifEmpty: [
-			self scriptStream << ')'.
-			^ self ].
+	shouldAddYourself := false.
 
-	self executedDictionary at: aReference put: true.
+	aReference internalStates do: [ :internalState |
+			self scriptStream << internalState setterForState.
+			self scriptStream << ';'.
+			shouldAddYourself := true ].
 	aReference nextReferencesWithAttribute keysAndValuesDo: [
 			:reference
 			:attribute |
 			self makeAttribute: attribute andReference: reference.
-			self scriptStream << ';' ].
-	self scriptStream << 'yourself)'
+			self scriptStream << ';'.
+			shouldAddYourself := true ].
+	self executedDictionary at: aReference put: true.
+
+	shouldAddYourself
+		ifFalse: [ self scriptStream << ')' ]
+		ifTrue: [ self scriptStream << 'yourself)' ]
 ]

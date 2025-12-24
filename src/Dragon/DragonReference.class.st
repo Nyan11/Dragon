@@ -6,11 +6,12 @@ Class {
 		'relations',
 		'nextReferencesWithAttribute',
 		'constructor',
-		'nextReferenceArguments'
+		'nextReferenceArguments',
+		'internalStates'
 	],
-	#category : 'Dragon-Description',
+	#category : 'Dragon-Serialization',
 	#package : 'Dragon',
-	#tag : 'Description'
+	#tag : 'Serialization'
 }
 
 { #category : 'adding' }
@@ -49,6 +50,19 @@ DragonReference >> initialize [
 
 	super initialize.
 	nextReferencesWithAttribute := OrderedDictionary new.
+	internalStates := OrderedCollection new
+]
+
+{ #category : 'accessing' }
+DragonReference >> internalStates [
+
+	^ internalStates
+]
+
+{ #category : 'accessing' }
+DragonReference >> internalStates: anObject [
+
+	internalStates := anObject
 ]
 
 { #category : 'accessing' }

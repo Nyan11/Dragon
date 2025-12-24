@@ -23,6 +23,13 @@ DragonStateAttribute >> defaultState: aSymbolOrTypedAttribute [
 ]
 
 { #category : 'as yet unclassified' }
+DragonStateAttribute >> dragonEquals: aDragonAttribute [
+
+	aDragonAttribute isState ifFalse: [ ^ false ].
+	^ self states values includesAll: aDragonAttribute states values
+]
+
+{ #category : 'as yet unclassified' }
 DragonStateAttribute >> if: arg1 stateIs: arg2 [
 
 	self states at: arg1 put: arg2
@@ -35,6 +42,36 @@ DragonStateAttribute >> initialize [
 	states := Dictionary new
 ]
 
+{ #category : 'as yet unclassified' }
+DragonStateAttribute >> internalStatesFor: anObject [
+
+	| defaultStateConditionResult |
+	defaultStateConditionResult := self defaultState isBlock
+		                               ifTrue: [
+		                               self defaultState
+			                               valueWithPossibleArgument: anObject ]
+		                               ifFalse: [
+		                               anObject perform:
+			                               self defaultState asSymbol ].
+
+	defaultStateConditionResult ifTrue: [ ^ {  } ].
+
+	self states keysAndValuesDo: [ :condition :setterForState |
+			| conditionResult |
+			conditionResult := condition isBlock
+				                   ifTrue: [
+				                   condition valueWithPossibleArgument: anObject ]
+				                   ifFalse: [
+				                   anObject perform: condition asSymbol ].
+			conditionResult ifTrue: [
+					^ { (DragonInternalState new
+						   target: anObject;
+						   dragonAttribute: self;
+						   setterForState: setterForState;
+						   yourself) } ] ].
+	^ {  }
+]
+
 { #category : 'testing' }
 DragonStateAttribute >> isState [
 
@@ -42,35 +79,22 @@ DragonStateAttribute >> isState [
 ]
 
 { #category : 'as yet unclassified' }
-DragonStateAttribute >> relationsFor: arg1 [
+DragonStateAttribute >> relationsFor: anObject [
 
-	| tmp1 |
-	self states keysAndValuesDo: [ :arg2 :arg3 |
-			| tmp2 tmp3 |
-			tmp2 := arg2 isBlock
-				        ifTrue: [ arg2 valueWithPossibleArgument: arg1 ]
-				        ifFalse: [ arg1 perform: arg2 ].
-			tmp2 ifTrue: [
-					arg3 isSymbol ifTrue: [
-							tmp3 := DragonRelation new.
-							tmp3
-								source: arg1;
-								dragonAttribute: self.
-							^ { (tmp3 target: (arg1 perform: arg3)) } ].
-					nil.
-					^ arg3 relationsFor: arg1 ] ].
-	self defaultState isSymbol ifTrue: [
-			tmp1 := DragonRelation new.
-			tmp1
-				source: arg1;
-				dragonAttribute: self.
-			^ { (tmp1 target: (arg1 perform: self defaultState)) } ].
-	nil.
-	^ self defaultState relationsFor: arg1
+	^ {  }
 ]
 
 { #category : 'as yet unclassified' }
 DragonStateAttribute >> states [
 
 	^ states
+]
+
+{ #category : 'as yet unclassified' }
+DragonStateAttribute >> verifyObjectIsDefault: anObject [
+
+	self defaultState ifNil: [ ^ false ].
+	self defaultState isBlock ifTrue: [
+		^ self defaultState valueWithArguments: anObject ].
+	^ anObject perform: self defaultState
 ]

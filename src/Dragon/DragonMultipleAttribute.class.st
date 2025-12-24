@@ -23,6 +23,13 @@ DragonMultipleAttribute >> addOne: anObject [
 	addOne := anObject
 ]
 
+{ #category : 'as yet unclassified' }
+DragonMultipleAttribute >> dragonEquals: aDragonAttribute [
+
+	aDragonAttribute isMultiple ifFalse: [ ^false ].
+	^ self setterForOne = aDragonAttribute setterForOne
+]
+
 { #category : 'accessing' }
 DragonMultipleAttribute >> getterForAll [
 

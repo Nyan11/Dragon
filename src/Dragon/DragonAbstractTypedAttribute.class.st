@@ -45,10 +45,10 @@ DragonAbstractTypedAttribute >> dragonTypes [
 	^ tmp1 yourself
 ]
 
-{ #category : 'testing' }
-DragonAbstractTypedAttribute >> isMultiple [
+{ #category : 'as yet unclassified' }
+DragonAbstractTypedAttribute >> internalStatesFor: anObject [
 
-	^ self explicitRequirement
+	^ {  }
 ]
 
 { #category : 'testing' }

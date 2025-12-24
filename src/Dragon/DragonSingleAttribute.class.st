@@ -3,12 +3,32 @@ Class {
 	#superclass : 'DragonAbstractTypedAttribute',
 	#instVars : [
 		'getter',
-		'setter'
+		'setter',
+		'defaultValue'
 	],
 	#category : 'Dragon-Description',
 	#package : 'Dragon',
 	#tag : 'Description'
 }
+
+{ #category : 'accessing' }
+DragonSingleAttribute >> defaultValue [
+
+	^ defaultValue
+]
+
+{ #category : 'accessing' }
+DragonSingleAttribute >> defaultValue: anObject [
+
+	defaultValue := anObject
+]
+
+{ #category : 'as yet unclassified' }
+DragonSingleAttribute >> dragonEquals: aDragonAttribute [
+
+	aDragonAttribute isSingle ifFalse: [ ^false ].
+	^ self setter = aDragonAttribute setter
+]
 
 { #category : 'accessing' }
 DragonSingleAttribute >> getter [
@@ -23,22 +43,21 @@ DragonSingleAttribute >> getter: anObject [
 	self setter ifNil: [ self setter: anObject asMutator ]
 ]
 
-{ #category : 'testing' }
-DragonSingleAttribute >> isMultiple [
+{ #category : 'accessing' }
+DragonSingleAttribute >> initialize [
 
-	^ false
+	super initialize.
+	defaultValue := nil
 ]
 
 { #category : 'as yet unclassified' }
-DragonSingleAttribute >> relationsFor: arg1 [
+DragonSingleAttribute >> relationsFor: anObject [
 
-	| tmp1 |
-	tmp1 := DragonRelation new.
-	tmp1
-		source: arg1;
-		dragonAttribute: self;
-		target: (arg1 perform: self getter).
-	^ { tmp1 yourself }
+	^ { (DragonRelation new
+		   source: anObject;
+		   dragonAttribute: self;
+		   target: (anObject perform: self getter);
+		   yourself) }
 ]
 
 { #category : 'accessing' }
@@ -51,4 +70,10 @@ DragonSingleAttribute >> setter [
 DragonSingleAttribute >> setter: anObject [
 
 	setter := anObject
+]
+
+{ #category : 'as yet unclassified' }
+DragonSingleAttribute >> verifyObjectIsDefault: anObject [
+
+	^ self defaultValue =  anObject
 ]

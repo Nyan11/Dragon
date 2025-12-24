@@ -23,12 +23,6 @@ DragonAbstractAttribute >> beForConstructor [
 ]
 
 { #category : 'as yet unclassified' }
-DragonAbstractAttribute >> dragonEquals: aDragonAttribute [
-
-	^ self setter = aDragonAttribute setter
-]
-
-{ #category : 'as yet unclassified' }
 DragonAbstractAttribute >> dragonVisit: aDragonVisitor [
 
 	aDragonVisitor visitAttribute: self 
@@ -39,6 +33,12 @@ DragonAbstractAttribute >> initialize [
 
 	super initialize.
 	isForConstructor := false
+]
+
+{ #category : 'as yet unclassified' }
+DragonAbstractAttribute >> internalStatesFor: anObject [
+
+	^ self explicitRequirement
 ]
 
 { #category : 'testing' }
@@ -52,6 +52,12 @@ DragonAbstractAttribute >> isComplexSetter [
 DragonAbstractAttribute >> isForConstructor [
 
 	 ^ isForConstructor
+]
+
+{ #category : 'testing' }
+DragonAbstractAttribute >> isMultiple [
+
+	^ false
 ]
 
 { #category : 'testing' }
@@ -78,8 +84,9 @@ DragonAbstractAttribute >> relationsFor: anObject [
 	^ self explicitRequirement
 ]
 
-{ #category : 'testing' }
-DragonAbstractAttribute >> setter [
+{ #category : 'as yet unclassified' }
+DragonAbstractAttribute >> verifyObjectIsDefault: anObject [
 
-	^ self explicitRequirement
+	self flag: 'I am not sure of this'.
+	^ false
 ]
