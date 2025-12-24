@@ -64,14 +64,17 @@ DragonMakeAllReferences >> buildReferences [
 	| isRootMulti |
 	isRootMulti := false.
 	self targetsDictionary keysAndValuesDo: [ :object :relation |
-			object = self rootObject
+			(self shouldCreateVariable: object)
+				ifFalse: [ self addSingleReference: object ]
 				ifTrue: [
-						self rootReference: (self addMultiReference: object).
-						isRootMulti := true ]
-				ifFalse: [
-						relation size > 1
-							ifTrue: [ self addMultiReference: object ]
-							ifFalse: [ self addSingleReference: object ] ] ].
+						object = self rootObject
+							ifTrue: [
+									self rootReference: (self addMultiReference: object).
+									isRootMulti := true ]
+							ifFalse: [
+									relation size > 1
+										ifTrue: [ self addMultiReference: object ]
+										ifFalse: [ self addSingleReference: object ] ] ] ].
 	isRootMulti ifTrue: [ ^ self ].
 	self rootReference: (self addSingleReference: self rootObject)
 ]
@@ -139,6 +142,12 @@ DragonMakeAllReferences >> rootReference [
 DragonMakeAllReferences >> rootReference: anObject [
 
 	rootReference := anObject
+]
+
+{ #category : 'building' }
+DragonMakeAllReferences >> shouldCreateVariable: anObject [
+
+	^ anObject isLiteral not
 ]
 
 { #category : 'accessing' }

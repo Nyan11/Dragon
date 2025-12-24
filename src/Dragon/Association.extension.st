@@ -27,5 +27,8 @@ Association >> dragonAssociationValueAttribute [
 { #category : '*Dragon' }
 Association >> dragonConstructor [
 
-	^ DragonAssociationConstructor new
+	^  DragonBinaryConstructor
+					  firstGetter: #key
+					  lastGetter: #value
+					  binaryOperator: '->'
 ]
