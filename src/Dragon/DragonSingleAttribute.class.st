@@ -55,6 +55,7 @@ DragonSingleAttribute >> relationsFor: anObject [
 
 	^ { (DragonRelation new
 		   source: anObject;
+		   index: 1;
 		   dragonAttribute: self;
 		   target: (anObject perform: self getter);
 		   yourself) }

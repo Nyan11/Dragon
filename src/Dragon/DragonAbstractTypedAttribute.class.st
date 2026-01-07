@@ -22,30 +22,6 @@ DragonAbstractTypedAttribute >> addType: aClass [
 ]
 
 { #category : 'as yet unclassified' }
-DragonAbstractTypedAttribute >> dragonTypes [
-
-	<metaDragon>
-	| tmp1 tmp2 tmp3 |
-	tmp1 := DragonStateAttribute new.
-	tmp1 name: 'Type State'.
-	tmp2 := DragonMultipleAttribute new.
-	tmp2
-		name: 'Types';
-		type: Class class;
-		getterForAll: #types;
-		addOne: #addType:.
-	tmp1 if: #isMultiple stateIs: tmp2 yourself.
-	tmp3 := DragonSingleAttribute new.
-	tmp3
-		name: 'Type';
-		type: Class class;
-		getter: #type;
-		setter: #type:.
-	tmp1 defaultState: tmp3 yourself.
-	^ tmp1 yourself
-]
-
-{ #category : 'as yet unclassified' }
 DragonAbstractTypedAttribute >> internalStatesFor: anObject [
 
 	^ {  }

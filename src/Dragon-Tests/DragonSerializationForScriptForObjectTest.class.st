@@ -38,3 +38,110 @@ DragonSerializationForScriptForObjectTest >> script4 [
    stateBForSlot3;
    yourself'
 ]
+
+{ #category : 'as yet unclassified' }
+DragonSerializationForScriptForObjectTest >> scriptMultipleReferences1 [
+
+	^ 'DragonMockObject new
+   slot1: DragonMockObject new;
+   yourself'
+]
+
+{ #category : 'as yet unclassified' }
+DragonSerializationForScriptForObjectTest >> scriptMultipleReferences2 [
+
+	^ '| dragonMockObject |
+dragonMockObject := DragonMockObject new.
+dragonMockObject
+   slot1: dragonMockObject;
+   yourself'
+]
+
+{ #category : 'as yet unclassified' }
+DragonSerializationForScriptForObjectTest >> scriptMultipleReferences3 [
+
+	^ 'DragonMockObject new
+   slot1: (DragonMockObject new
+         slot1: (DragonMockObject new
+               slot1: DragonMockObject new;
+               yourself);
+         yourself);
+   yourself'
+]
+
+{ #category : 'as yet unclassified' }
+DragonSerializationForScriptForObjectTest >> scriptMultipleReferences4 [
+
+	^ '| dragonMockObject1 dragonMockObject2 |
+dragonMockObject1 := DragonMockObject new.
+dragonMockObject2 := DragonMockObject new.
+dragonMockObject1
+   slot1: #object1;
+   addOnSlot2: dragonMockObject1;
+   addOnSlot2: (dragonMockObject2
+         slot1: #object2;
+         addOnSlot2: dragonMockObject1;
+         addOnSlot2: dragonMockObject2;
+         yourself);
+   yourself'
+]
+
+{ #category : 'as yet unclassified' }
+DragonSerializationForScriptForObjectTest >> scriptMultipleReferences5 [
+
+	^ '| dragonMockObject1 dragonMockObject2 dragonMockObject3 |
+dragonMockObject1 := DragonMockObject new.
+dragonMockObject2 := DragonMockObject new.
+dragonMockObject3 := DragonMockObject new.
+dragonMockObject1
+   slot1: #object1;
+   addOnSlot2: dragonMockObject1;
+   addOnSlot2: (dragonMockObject2
+         slot1: #object2;
+         addOnSlot2: dragonMockObject1;
+         addOnSlot2: dragonMockObject2;
+         addOnSlot2: (dragonMockObject3
+               slot1: #object3;
+               addOnSlot2: dragonMockObject1;
+               addOnSlot2: dragonMockObject2;
+               addOnSlot2: dragonMockObject3;
+               yourself);
+         yourself);
+   addOnSlot2: dragonMockObject3;
+   yourself'
+]
+
+{ #category : 'as yet unclassified' }
+DragonSerializationForScriptForObjectTest >> scriptMultipleReferences6 [
+
+	^ '| dragonMockObject1 dragonMockObject2 dragonMockObject3 dragonMockObject4 |
+dragonMockObject1 := DragonMockObject new.
+dragonMockObject2 := DragonMockObject new.
+dragonMockObject3 := DragonMockObject new.
+dragonMockObject4 := DragonMockObject new.
+dragonMockObject1
+   slot1: #object1;
+   addOnSlot2: dragonMockObject1;
+   addOnSlot2: (dragonMockObject2
+         slot1: #object2;
+         addOnSlot2: dragonMockObject1;
+         addOnSlot2: dragonMockObject2;
+         addOnSlot2: (dragonMockObject3
+               slot1: #object3;
+               addOnSlot2: dragonMockObject1;
+               addOnSlot2: dragonMockObject2;
+               addOnSlot2: dragonMockObject3;
+               addOnSlot2: (dragonMockObject4
+                     slot1: #object4;
+                     addOnSlot2: dragonMockObject1;
+                     addOnSlot2: dragonMockObject2;
+                     addOnSlot2: dragonMockObject3;
+                     addOnSlot2: dragonMockObject4;
+                     yourself);
+               yourself);
+         addOnSlot2: dragonMockObject4;
+         yourself);
+   addOnSlot2: dragonMockObject3;
+   addOnSlot2: dragonMockObject4;
+   yourself'
+]

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'source',
 		'target',
-		'dragonAttribute'
+		'dragonAttribute',
+		'index'
 	],
 	#category : 'Dragon-Serialization',
 	#package : 'Dragon',
@@ -18,17 +19,31 @@ DragonRelation >> dragonAttribute [
 ]
 
 { #category : 'accessing' }
-DragonRelation >> dragonAttribute: anObject [
+DragonRelation >> dragonAttribute: arg1 [
 
-	dragonAttribute := anObject
+	dragonAttribute := arg1
 ]
 
 { #category : 'testing' }
-DragonRelation >> isSimilarTo: aDragonRelation [
+DragonRelation >> dragonEquals: aDragonRelation [
 
-	^ ((self target dragonEquals: aDragonRelation target) and: [
-		   self source dragonEquals: aDragonRelation source ]) and: [
-		  self dragonAttribute dragonEquals: aDragonRelation dragonAttribute ]
+	^ (((self target dragonEquals: aDragonRelation target) and: [
+		    self source dragonEquals: aDragonRelation source ]) and: [
+		   self dragonAttribute dragonEquals:
+			   aDragonRelation dragonAttribute ]) and: [
+		  self index dragonEquals: aDragonRelation index ]
+]
+
+{ #category : 'accessing' }
+DragonRelation >> index [
+
+	^ index
+]
+
+{ #category : 'accessing' }
+DragonRelation >> index: anObject [
+
+	index := anObject
 ]
 
 { #category : 'accessing' }
@@ -38,9 +53,9 @@ DragonRelation >> source [
 ]
 
 { #category : 'accessing' }
-DragonRelation >> source: anObject [
+DragonRelation >> source: arg1 [
 
-	source := anObject
+	source := arg1
 ]
 
 { #category : 'accessing' }
@@ -50,7 +65,7 @@ DragonRelation >> target [
 ]
 
 { #category : 'accessing' }
-DragonRelation >> target: anObject [
+DragonRelation >> target: arg1 [
 
-	target := anObject
+	target := arg1
 ]

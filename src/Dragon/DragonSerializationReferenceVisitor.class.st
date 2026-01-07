@@ -4,12 +4,19 @@ Class {
 	#instVars : [
 		'nameReferenceDictionary',
 		'scriptStream',
-		'executedDictionary'
+		'executedDictionary',
+		'alreadySetAttribute'
 	],
 	#category : 'Dragon-Serialization',
 	#package : 'Dragon',
 	#tag : 'Serialization'
 }
+
+{ #category : 'accessing' }
+DragonSerializationReferenceVisitor >> alreadySetAttribute [
+
+	^ alreadySetAttribute
+]
 
 { #category : 'accessing' }
 DragonSerializationReferenceVisitor >> executedDictionary [
@@ -37,13 +44,18 @@ DragonSerializationReferenceVisitor >> initialize [
 
 	super initialize.
 	executedDictionary := Dictionary new.
-	scriptStream := self newWriteStream
+	scriptStream := self newWriteStream.
+	alreadySetAttribute := Dictionary new
 ]
 
 { #category : 'visiting' }
 DragonSerializationReferenceVisitor >> makeAttribute: attribute andReference: reference [
 
 	| arguments keyWords |
+	self alreadySetAttribute
+		at: reference
+		ifPresent: [ :col | col add: attribute ]
+		ifAbsentPut: [ OrderedCollection with: attribute ].
 
 	attribute isComplexSetter ifFalse: [
 			attribute dragonVisit: self.
@@ -97,6 +109,21 @@ DragonSerializationReferenceVisitor >> scriptStream: anObject [
 ]
 
 { #category : 'visiting' }
+DragonSerializationReferenceVisitor >> shouldAddAttribute: anAttribute [
+
+	^ (self attributes includes: anAttribute) not
+]
+
+{ #category : 'visiting' }
+DragonSerializationReferenceVisitor >> shouldAddAttribute: anAttribute andReference: aReference [
+
+	self alreadySetAttribute
+		at: aReference
+		ifPresent: [ :col | ^ (col includes: anAttribute) not ]
+		ifAbsent: [ ^ true ]
+]
+
+{ #category : 'visiting' }
 DragonSerializationReferenceVisitor >> visitAttribute: aDragonSingleAttribute [
 	aDragonSingleAttribute setter.
 	self scriptStream << aDragonSingleAttribute setter.
@@ -132,19 +159,19 @@ DragonSerializationReferenceVisitor >> visitReference: aReference [
 	alreadyCreated ifTrue: [ ^ self ].
 
 	shouldAddYourself := false.
-
 	aReference internalStates do: [ :internalState |
 			self scriptStream << internalState setterForState.
 			self scriptStream << ';'.
 			shouldAddYourself := true ].
+	self executedDictionary at: aReference put: true.
 	aReference nextReferencesWithAttribute keysAndValuesDo: [
 			:reference
 			:attribute |
-			self makeAttribute: attribute andReference: reference.
-			self scriptStream << ';'.
-			shouldAddYourself := true ].
-	self executedDictionary at: aReference put: true.
-
+			(self shouldAddAttribute: attribute andReference: reference)
+				ifTrue: [
+						self makeAttribute: attribute andReference: reference.
+						self scriptStream << ';'.
+						shouldAddYourself := true ] ].
 	shouldAddYourself
 		ifFalse: [ self scriptStream << ')' ]
 		ifTrue: [ self scriptStream << 'yourself)' ]

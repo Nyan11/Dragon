@@ -30,14 +30,15 @@ DragonMakeAllRelations >> registerRelation: aDragonRelation [
 	(self shouldRegisterThisRelation: aDragonRelation) ifFalse: [ ^ self ].
 	self relations add: aDragonRelation.
 	aDragonRelation target dragonMetaRelations do: [ :relation |
-		self registerRelation: relation ]
+		self registerRelation: relation
+	]
 ]
 
 { #category : 'accessing' }
 DragonMakeAllRelations >> relationAlreadyExists: aDragonRelation [
 
 	^ self relations anySatisfy: [ :each |
-		  each isSimilarTo: aDragonRelation ]
+		  each dragonEquals: aDragonRelation ]
 ]
 
 { #category : 'accessing' }
@@ -61,9 +62,9 @@ DragonMakeAllRelations >> rootObject: anObject [
 { #category : 'accessing' }
 DragonMakeAllRelations >> shouldRegisterThisRelation: aDragonRelation [
 
-	aDragonRelation dragonAttribute isMultiple ifTrue: [ ^ true ].
+	"aDragonRelation dragonAttribute isMultiple ifTrue: [ ^ true ]."
 	(self relationAlreadyExists: aDragonRelation) ifTrue: [ ^ false ].
-	(aDragonRelation dragonAttribute verifyObjectIsDefault: aDragonRelation target)
-		ifTrue: [ ^ false ].
+	(aDragonRelation dragonAttribute verifyObjectIsDefault:
+		 aDragonRelation target) ifTrue: [ ^ false ].
 	^ true
 ]

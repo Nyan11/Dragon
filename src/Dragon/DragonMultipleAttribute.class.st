@@ -3,25 +3,12 @@ Class {
 	#superclass : 'DragonAbstractTypedAttribute',
 	#instVars : [
 		'getterForAll',
-		'addOne',
 		'setterForOne'
 	],
 	#category : 'Dragon-Description',
 	#package : 'Dragon',
 	#tag : 'Description'
 }
-
-{ #category : 'accessing' }
-DragonMultipleAttribute >> addOne [
-
-	^ addOne
-]
-
-{ #category : 'accessing' }
-DragonMultipleAttribute >> addOne: anObject [
-
-	addOne := anObject
-]
 
 { #category : 'as yet unclassified' }
 DragonMultipleAttribute >> dragonEquals: aDragonAttribute [
@@ -52,10 +39,13 @@ DragonMultipleAttribute >> isMultiple [
 DragonMultipleAttribute >> relationsFor: anObject [
 
 	| elements |
-	elements := self getterForAll isBlock ifTrue: [ self getterForAll value: anObject ] ifFalse: [ anObject perform: self getterForAll].
-	^ elements collect: [ :element |
+	elements := self getterForAll isBlock
+		            ifTrue: [ self getterForAll value: anObject ]
+		            ifFalse: [ anObject perform: self getterForAll ].
+	^ elements collectWithIndex: [ :element :index |
 			  DragonRelation new
 				  source: anObject;
+				  index: index;
 				  dragonAttribute: self;
 				  target: element;
 				  yourself ]

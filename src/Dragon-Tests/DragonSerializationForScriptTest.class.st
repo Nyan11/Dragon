@@ -24,7 +24,7 @@ DragonSerializationForScriptTest >> assertScriptSelector: aSelector [
 		                          objectToSerialize.
 
 	self assert: serializedScriptString equals: scriptString.
-	{
+	^ {
 		aSelector.
 		serializedScriptString.
 		scriptString }
@@ -37,7 +37,7 @@ DragonSerializationForScriptTest >> inspectTests [
 	(DragonSerializationForScriptTest subclasses collect: [ :each |
 			 each isAbstract ifFalse: [
 					 each -> (each new testScriptMethods sorted: [ :a :b |
-						 a first selector < b first selector ]) ] ]) inspect
+						 a first < b first ]) ] ]) inspect
 ]
 
 { #category : 'tests' }

@@ -2,7 +2,7 @@ Class {
 	#name : 'DragonArrayConstructor',
 	#superclass : 'DragonConstructorWithReferences',
 	#instVars : [
-		'objectsOfArray'
+		'references'
 	],
 	#category : 'Dragon-Description',
 	#package : 'Dragon',
@@ -12,8 +12,7 @@ Class {
 { #category : 'adding' }
 DragonArrayConstructor >> addNextReference: aDragonReference withAttribute: aDragonAttribute [
 
-	self objectsOfArray add: aDragonReference
-
+	self references add: aDragonReference
 ]
 
 { #category : 'as yet unclassified' }
@@ -36,19 +35,13 @@ DragonArrayConstructor >> hasReferences [
 DragonArrayConstructor >> initialize [
 
 	super initialize.
-	objectsOfArray := OrderedCollection new
-]
-
-{ #category : 'testing' }
-DragonArrayConstructor >> objectsOfArray [
-
-	^ objectsOfArray
+	references := OrderedCollection new
 ]
 
 { #category : 'testing' }
 DragonArrayConstructor >> references [
 
-	^ self objectsOfArray
+	^ references
 ]
 
 { #category : 'as yet unclassified' }
