@@ -2702,6 +2702,18 @@ CtPModelBuilderTest >> setUp [
 ]
 
 { #category : 'tests' }
+CtPModelBuilderTest >> testAsSAModel [
+
+	| model saModel |
+	model := CtPModelBuilder new
+		         file: file;
+		         build.
+	saModel := model asSAModel.
+	self halt.
+	self fail
+]
+
+{ #category : 'tests' }
 CtPModelBuilderTest >> testBuild [
 
 	| model |
@@ -2712,14 +2724,25 @@ CtPModelBuilderTest >> testBuild [
 ]
 
 { #category : 'tests' }
-CtPModelBuilderTest >> testSelectFunctionalExchanges [
+CtPModelBuilderTest >> testSelectSystemActors [
 
 	| model selection |
 	model := CtPModelBuilder new
 		         file: file;
 		         build.
-	selection := model selectFunctionalExchanges.
-	self assert: selection size equals: 32
+	selection := model selectSystemActors.
+	self assert: selection size equals: 2
+]
+
+{ #category : 'tests' }
+CtPModelBuilderTest >> testSelectSystemFunctionnalExchanges [
+
+	| model selection |
+	model := CtPModelBuilder new
+		         file: file;
+		         build.
+	selection := model selectSystemFunctionnalExchanges.
+	self assert: selection size equals: 13
 ]
 
 { #category : 'tests' }
@@ -2731,4 +2754,15 @@ CtPModelBuilderTest >> testSelectSystemFunctions [
 		         build.
 	selection := model selectSystemFunctions.
 	self assert: selection size equals: 12
+]
+
+{ #category : 'tests' }
+CtPModelBuilderTest >> testSelectSystemSystem [
+
+	| model selection |
+	model := CtPModelBuilder new
+		         file: file;
+		         build.
+	selection := model selectSystemSystem.
+	self assert: selection name equals: 'Clock Radio'
 ]
