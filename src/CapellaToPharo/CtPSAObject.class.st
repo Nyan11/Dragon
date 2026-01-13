@@ -5,8 +5,9 @@ Class {
 		'capellaObject',
 		'name'
 	],
-	#category : 'CapellaToPharo',
-	#package : 'CapellaToPharo'
+	#category : 'CapellaToPharo-System Analysis',
+	#package : 'CapellaToPharo',
+	#tag : 'System Analysis'
 }
 
 { #category : 'as yet unclassified' }

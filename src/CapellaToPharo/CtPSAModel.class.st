@@ -8,14 +8,15 @@ Class {
 		'functionnalExchanges',
 		'system'
 	],
-	#category : 'CapellaToPharo',
-	#package : 'CapellaToPharo'
+	#category : 'CapellaToPharo-System Analysis',
+	#package : 'CapellaToPharo',
+	#tag : 'System Analysis'
 }
 
 { #category : 'examples' }
 CtPSAModel class >> example [
 
-	CtPModelBuilder modelForExample asSAModel inspect
+	CtPImportModel modelForExample asSAModel inspect
 ]
 
 { #category : 'accessing' }

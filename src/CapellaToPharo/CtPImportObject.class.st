@@ -1,5 +1,5 @@
 Class {
-	#name : 'CtPObject',
+	#name : 'CtPImportObject',
 	#superclass : 'Object',
 	#instVars : [
 		'xmlNode',
@@ -12,12 +12,13 @@ Class {
 		'type',
 		'name'
 	],
-	#category : 'CapellaToPharo',
-	#package : 'CapellaToPharo'
+	#category : 'CapellaToPharo-Import',
+	#package : 'CapellaToPharo',
+	#tag : 'Import'
 }
 
 { #category : 'adding' }
-CtPObject >> addAttributeName: aString value: aCtPObject [
+CtPImportObject >> addAttributeName: aString value: aCtPObject [
 
 	self attributes
 		at: aString
@@ -27,20 +28,20 @@ CtPObject >> addAttributeName: aString value: aCtPObject [
 ]
 
 { #category : 'adding' }
-CtPObject >> addChild: aCtPObject [
+CtPImportObject >> addChild: aCtPObject [
 
 	self children add: aCtPObject.
 	aCtPObject parent: self
 ]
 
 { #category : 'adding' }
-CtPObject >> addLinkTo: aCtPObject [
+CtPImportObject >> addLinkTo: aCtPObject [
 
 	self links add: aCtPObject
 ]
 
 { #category : 'converting' }
-CtPObject >> as: aClass [
+CtPImportObject >> as: aClass [
 
 	^ aClass new
 		  capellaObject: self;
@@ -49,7 +50,7 @@ CtPObject >> as: aClass [
 ]
 
 { #category : 'converting' }
-CtPObject >> asRSShapeForInspection [
+CtPImportObject >> asRSShapeForInspection [
 
 	| shape |
 	shape := RSBox model: self.
@@ -75,51 +76,51 @@ CtPObject >> asRSShapeForInspection [
 ]
 
 { #category : 'converting' }
-CtPObject >> asSystemActors [
+CtPImportObject >> asSystemActors [
 
 	^ self as: CtPSAActor
 ]
 
 { #category : 'converting' }
-CtPObject >> asSystemFunctionnalExchanges [
+CtPImportObject >> asSystemFunctionnalExchanges [
 	^ self as: CtPSAFunctionalExchange.
 ]
 
 { #category : 'converting' }
-CtPObject >> asSystemFunctions [
+CtPImportObject >> asSystemFunctions [
 	^ self as: CtPSAFunction .
 ]
 
 { #category : 'converting' }
-CtPObject >> asSystemSystem [
+CtPImportObject >> asSystemSystem [
 
 	^ self as: CtPSASystem
 ]
 
 { #category : 'accessing' }
-CtPObject >> attributes [
+CtPImportObject >> attributes [
 	^ attributes
 ]
 
 { #category : 'accessing' }
-CtPObject >> children [
+CtPImportObject >> children [
 	^ children
 ]
 
 { #category : 'accessing' }
-CtPObject >> id [
+CtPImportObject >> id [
 
 	^ id
 ]
 
 { #category : 'accessing' }
-CtPObject >> id: anObject [
+CtPImportObject >> id: anObject [
 
 	id := anObject
 ]
 
 { #category : 'initialization' }
-CtPObject >> initialize [
+CtPImportObject >> initialize [
 
 	super initialize.
 	children := OrderedCollection new.
@@ -128,7 +129,7 @@ CtPObject >> initialize [
 ]
 
 { #category : 'testing' }
-CtPObject >> isSystemAnalysis [
+CtPImportObject >> isSystemAnalysis [
 
 	self xmlNode name = 'ownedArchitectures' ifTrue: [ ^ self type = 'org.polarsys.capella.core.data.ctx:SystemAnalysis' ].
 	self parent ifNil: [ ^ false ].
@@ -136,43 +137,43 @@ CtPObject >> isSystemAnalysis [
 ]
 
 { #category : 'as yet unclassified' }
-CtPObject >> linkedCapellaObjects [
+CtPImportObject >> linkedCapellaObjects [
 
 	^ self children, self attributes values flattened
 ]
 
 { #category : 'accessing' }
-CtPObject >> links [
+CtPImportObject >> links [
 
 	^ links
 ]
 
 { #category : 'accessing' }
-CtPObject >> name [
+CtPImportObject >> name [
 
 	^ name
 ]
 
 { #category : 'accessing' }
-CtPObject >> name: anObject [
+CtPImportObject >> name: anObject [
 
 	name := anObject
 ]
 
 { #category : 'accessing' }
-CtPObject >> parent [
+CtPImportObject >> parent [
 
 	^ parent
 ]
 
 { #category : 'accessing' }
-CtPObject >> parent: anObject [
+CtPImportObject >> parent: anObject [
 
 	parent := anObject
 ]
 
 { #category : 'printing' }
-CtPObject >> printOn: aStream [
+CtPImportObject >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream << ' ('.
@@ -184,37 +185,37 @@ CtPObject >> printOn: aStream [
 ]
 
 { #category : 'accessing' }
-CtPObject >> type [
+CtPImportObject >> type [
 
 	^ type
 ]
 
 { #category : 'accessing' }
-CtPObject >> type: anObject [
+CtPImportObject >> type: anObject [
 
 	type := anObject
 ]
 
 { #category : 'accessing' }
-CtPObject >> xmlDocument [
+CtPImportObject >> xmlDocument [
 
 	^ xmlDocument
 ]
 
 { #category : 'accessing' }
-CtPObject >> xmlDocument: anObject [
+CtPImportObject >> xmlDocument: anObject [
 
 	xmlDocument := anObject
 ]
 
 { #category : 'accessing' }
-CtPObject >> xmlNode [
+CtPImportObject >> xmlNode [
 
 	^ xmlNode
 ]
 
 { #category : 'accessing' }
-CtPObject >> xmlNode: anObject [
+CtPImportObject >> xmlNode: anObject [
 
 	xmlNode := anObject
 ]

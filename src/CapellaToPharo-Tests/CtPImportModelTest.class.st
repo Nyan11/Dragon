@@ -1,16 +1,16 @@
 Class {
-	#name : 'CtPModelBuilderTest',
+	#name : 'CtPImportModelTest',
 	#superclass : 'TestCase',
 	#instVars : [
 		'filesystem',
 		'file'
 	],
-	#category : 'CapellaToPharo',
-	#package : 'CapellaToPharo'
+	#category : 'CapellaToPharo-Tests',
+	#package : 'CapellaToPharo-Tests'
 }
 
 { #category : 'as yet unclassified' }
-CtPModelBuilderTest >> capellaFileContent [
+CtPImportModelTest >> capellaFileContent [
 
 	^ '<?xml version="1.0" encoding="UTF-8"?>
 
@@ -2692,7 +2692,7 @@ CtPModelBuilderTest >> capellaFileContent [
 ]
 
 { #category : 'running' }
-CtPModelBuilderTest >> setUp [
+CtPImportModelTest >> setUp [
 
 	super setUp.
 	filesystem := FileSystem memory.
@@ -2702,10 +2702,10 @@ CtPModelBuilderTest >> setUp [
 ]
 
 { #category : 'tests' }
-CtPModelBuilderTest >> testAsSAModel [
+CtPImportModelTest >> testAsSAModel [
 
 	| model saModel |
-	model := CtPModelBuilder new
+	model := CtPImportModel new
 		         file: file;
 		         build.
 	saModel := model asSAModel.
@@ -2716,20 +2716,20 @@ CtPModelBuilderTest >> testAsSAModel [
 ]
 
 { #category : 'tests' }
-CtPModelBuilderTest >> testBuild [
+CtPImportModelTest >> testBuild [
 
 	| model |
-	model := CtPModelBuilder new
+	model := CtPImportModel new
 		         file: file;
 		         build.
 	self assert: model capellaObjects size equals: 906
 ]
 
 { #category : 'tests' }
-CtPModelBuilderTest >> testSelectSystemActors [
+CtPImportModelTest >> testSelectSystemActors [
 
 	| model selection |
-	model := CtPModelBuilder new
+	model := CtPImportModel new
 		         file: file;
 		         build.
 	selection := model selectSystemActors.
@@ -2737,10 +2737,10 @@ CtPModelBuilderTest >> testSelectSystemActors [
 ]
 
 { #category : 'tests' }
-CtPModelBuilderTest >> testSelectSystemFunctionnalExchanges [
+CtPImportModelTest >> testSelectSystemFunctionnalExchanges [
 
 	| model selection |
-	model := CtPModelBuilder new
+	model := CtPImportModel new
 		         file: file;
 		         build.
 	selection := model selectSystemFunctionnalExchanges.
@@ -2748,10 +2748,10 @@ CtPModelBuilderTest >> testSelectSystemFunctionnalExchanges [
 ]
 
 { #category : 'tests' }
-CtPModelBuilderTest >> testSelectSystemFunctions [
+CtPImportModelTest >> testSelectSystemFunctions [
 
 	| model selection |
-	model := CtPModelBuilder new
+	model := CtPImportModel new
 		         file: file;
 		         build.
 	selection := model selectSystemFunctions.
@@ -2759,10 +2759,10 @@ CtPModelBuilderTest >> testSelectSystemFunctions [
 ]
 
 { #category : 'tests' }
-CtPModelBuilderTest >> testSelectSystemSystem [
+CtPImportModelTest >> testSelectSystemSystem [
 
 	| model selection |
-	model := CtPModelBuilder new
+	model := CtPImportModel new
 		         file: file;
 		         build.
 	selection := model selectSystemSystem.

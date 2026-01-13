@@ -1,43 +1,44 @@
 Class {
-	#name : 'CtPModelBuilder',
+	#name : 'CtPImportModel',
 	#superclass : 'Object',
 	#instVars : [
 		'file',
 		'capellaObjects',
 		'capellaDocument'
 	],
-	#category : 'CapellaToPharo',
-	#package : 'CapellaToPharo'
+	#category : 'CapellaToPharo-Import',
+	#package : 'CapellaToPharo',
+	#tag : 'Import'
 }
 
 { #category : 'examples' }
-CtPModelBuilder class >> example [
+CtPImportModel class >> example [
 
 	self modelForExample inspect
 ]
 
 { #category : 'examples' }
-CtPModelBuilder class >> modelForExample [
+CtPImportModel class >> modelForExample [
 
 	| filesystem file model |
 	filesystem := FileSystem memory.
 	file := filesystem workingDirectory / 'CtPTest.CAPELLA'.
 	file writeStreamDo: [ :stream |
-		stream nextPutAll: CtPModelBuilderTest new capellaFileContent ].
-	model := CtPModelBuilder new
+		stream nextPutAll: CtPImportModelTest new capellaFileContent ].
+	model := CtPImportModel new
 		         file: file;
 		         build.
 	^ model
 ]
 
 { #category : 'converting' }
-CtPModelBuilder >> asSAModel [
+CtPImportModel >> asSAModel [
 
 	^ CtPSAModel new capellaModel: self; yourself	
 ]
 
 { #category : 'building' }
-CtPModelBuilder >> build [
+CtPImportModel >> build [
 
 	self file ifNil: [ ^ self error: 'File must not be nil.' ].
 
@@ -47,24 +48,24 @@ CtPModelBuilder >> build [
 ]
 
 { #category : 'accessing' }
-CtPModelBuilder >> capellaDocument [
+CtPImportModel >> capellaDocument [
 
 	^ capellaDocument
 ]
 
 { #category : 'accessing' }
-CtPModelBuilder >> capellaObjects [
+CtPImportModel >> capellaObjects [
 
 	^ capellaObjects
 ]
 
 { #category : 'building' }
-CtPModelBuilder >> createCapellaObjects [
+CtPImportModel >> createCapellaObjects [
 
 	| nodes |
 	nodes := ((XPath for: '//*[@id]') in: self capellaDocument) asArray.
 	capellaObjects := nodes collect: [ :node |
-			                  CtPObject new
+			                  CtPImportObject new
 				                  xmlNode: node;
 				                  xmlDocument: self capellaDocument;
 				                  id: (node attributeAt: 'id');
@@ -74,20 +75,20 @@ CtPModelBuilder >> createCapellaObjects [
 ]
 
 { #category : 'accessing' }
-CtPModelBuilder >> file [
+CtPImportModel >> file [
 
 	^ file
 ]
 
 { #category : 'accessing' }
-CtPModelBuilder >> file: anObject [
+CtPImportModel >> file: anObject [
 
 	file := anObject.
 	capellaDocument := XMLDOMParser parse: self file asFileReference contents.
 ]
 
 { #category : 'building' }
-CtPModelBuilder >> fixRealtionsBetweenObjects [
+CtPImportModel >> fixRealtionsBetweenObjects [
 
 	| idRegex |
 	idRegex := '[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}'
@@ -114,7 +115,7 @@ CtPModelBuilder >> fixRealtionsBetweenObjects [
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> inspectorCapellaGraph: aBuilder [
+CtPImportModel >> inspectorCapellaGraph: aBuilder [
 
 	<inspectorPresentationOrder: 1000 title: 'CtP Map'>
 	| objects canvas |
@@ -129,7 +130,7 @@ CtPModelBuilder >> inspectorCapellaGraph: aBuilder [
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> rsCapellaGraphForObject: aCollection [
+CtPImportModel >> rsCapellaGraphForObject: aCollection [
 
 	| shapes canvas layout |
 	shapes := aCollection
@@ -158,39 +159,39 @@ CtPModelBuilder >> rsCapellaGraphForObject: aCollection [
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> selectFunctionalExchanges [
+CtPImportModel >> selectFunctionalExchanges [
 
 	^ self selectType: 'org.polarsys.capella.core.data.fa:FunctionalExchange'
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> selectSystemActors [
+CtPImportModel >> selectSystemActors [
 
 	^ self selectType: 'org.polarsys.capella.core.data.ctx:Actor'
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> selectSystemFunctionnalExchanges [
+CtPImportModel >> selectSystemFunctionnalExchanges [
 
 	^ (self selectType:
 		  'org.polarsys.capella.core.data.fa:FunctionalExchange') select: [ :each | each isSystemAnalysis ]
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> selectSystemFunctions [
+CtPImportModel >> selectSystemFunctions [
 
 	^ self selectType: 'org.polarsys.capella.core.data.ctx:SystemFunction'
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> selectSystemSystem [
+CtPImportModel >> selectSystemSystem [
 
 	^ (self selectType:
 		  'org.polarsys.capella.core.data.ctx:System') first
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> selectType: aString [
+CtPImportModel >> selectType: aString [
 
 	| selection |
 	selection := self capellaObjects select: [ :obj |
@@ -201,7 +202,7 @@ CtPModelBuilder >> selectType: aString [
 ]
 
 { #category : 'as yet unclassified' }
-CtPModelBuilder >> selectTypeBeginsWith: aString [
+CtPImportModel >> selectTypeBeginsWith: aString [
 
 	| selection |
 	selection := self capellaObjects select: [ :obj | obj type beginsWith: aString ].
