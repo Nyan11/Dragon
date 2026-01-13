@@ -9,6 +9,17 @@ Class {
 	#package : 'CapellaToPharo'
 }
 
+{ #category : 'as yet unclassified' }
+CtPSAObject >> asRSShapeForInspection [
+
+	| shape |
+	shape := RSBox model: self.
+	shape @ RSPopup.
+	shape draggable.
+	shape color: self rsShapeColorForInspection.
+	^ shape
+]
+
 { #category : 'accessing' }
 CtPSAObject >> capellaObject [
 
@@ -31,4 +42,16 @@ CtPSAObject >> name [
 CtPSAObject >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : 'as yet unclassified' }
+CtPSAObject >> rsNextObjects [
+
+	^ {  }
+]
+
+{ #category : 'as yet unclassified' }
+CtPSAObject >> rsShapeColorForInspection [
+
+	^ Color gray
 ]

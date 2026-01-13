@@ -12,6 +12,12 @@ Class {
 	#package : 'CapellaToPharo'
 }
 
+{ #category : 'examples' }
+CtPSAModel class >> example [
+
+	CtPModelBuilder modelForExample asSAModel inspect
+]
+
 { #category : 'accessing' }
 CtPSAModel >> actors [
 
@@ -21,7 +27,7 @@ CtPSAModel >> actors [
 { #category : 'building' }
 CtPSAModel >> build [
 
-	system := self capellaModel selectSystemSystem asSystemActors.
+	system := self capellaModel selectSystemSystem asSystemSystem.
 	actors := self capellaModel selectSystemActors collect:
 		          #asSystemActors.
 	functions := self capellaModel selectSystemFunctions collect:
@@ -32,7 +38,8 @@ CtPSAModel >> build [
 
 	system linksToFunctionsIn: functions.
 	actors do: [ :actor | actor linksToFunctionsIn: functions ].
-	functionnalExchanges do: [ :fexchange | fexchange linksToFunctionsIn: functions ]
+	functionnalExchanges do: [ :fexchange |
+		fexchange linksToFunctionsIn: functions ]
 ]
 
 { #category : 'accessing' }
@@ -58,6 +65,49 @@ CtPSAModel >> functionnalExchanges [
 CtPSAModel >> functions [
 
 	^ functions
+]
+
+{ #category : 'as yet unclassified' }
+CtPSAModel >> inspectorCapellaGraph: aBuilder [
+
+	<inspectorPresentationOrder: 1000 title: 'CtP SA Map'>
+	| objects canvas |
+	objects := actors , functions , functionnalExchanges , { system }.
+
+
+	canvas := self rsCapellaGraphForObject: objects.
+
+	^ (aBuilder instantiate: SpRoassalInspectorPresenter)
+		  canvas: canvas;
+		  yourself
+]
+
+{ #category : 'as yet unclassified' }
+CtPSAModel >> rsCapellaGraphForObject: aCollection [
+
+	| shapes canvas layout |
+	shapes := aCollection
+		          collect: [ :each | each asRSShapeForInspection ]
+		          as: OrderedCollection.
+
+	canvas := RSCanvas new.
+	canvas addAll: shapes.
+	canvas @ RSCanvasController.
+	canvas shapes @ RSHighlightable red.
+
+	RSLineBuilder line
+		color: Color black;
+		canvas: canvas;
+		shapes: shapes;
+		connectFromAll: #rsNextObjects.
+
+	layout := RSForceBasedLayout new
+		          nodes: shapes;
+		          edges: canvas lines;
+		          start;
+		          yourself.
+	canvas newAnimation repeat onStepDo: [ :t | layout step ].
+	^ canvas
 ]
 
 { #category : 'accessing' }

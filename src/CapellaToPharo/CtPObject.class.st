@@ -77,7 +77,7 @@ CtPObject >> asRSShapeForInspection [
 { #category : 'converting' }
 CtPObject >> asSystemActors [
 
-	^ self as: CtPSASystem
+	^ self as: CtPSAActor
 ]
 
 { #category : 'converting' }
@@ -88,6 +88,12 @@ CtPObject >> asSystemFunctionnalExchanges [
 { #category : 'converting' }
 CtPObject >> asSystemFunctions [
 	^ self as: CtPSAFunction .
+]
+
+{ #category : 'converting' }
+CtPObject >> asSystemSystem [
+
+	^ self as: CtPSASystem
 ]
 
 { #category : 'accessing' }

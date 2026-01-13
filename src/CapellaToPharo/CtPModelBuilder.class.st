@@ -13,6 +13,12 @@ Class {
 { #category : 'examples' }
 CtPModelBuilder class >> example [
 
+	self modelForExample inspect
+]
+
+{ #category : 'examples' }
+CtPModelBuilder class >> modelForExample [
+
 	| filesystem file model |
 	filesystem := FileSystem memory.
 	file := filesystem workingDirectory / 'CtPTest.CAPELLA'.
@@ -21,8 +27,7 @@ CtPModelBuilder class >> example [
 	model := CtPModelBuilder new
 		         file: file;
 		         build.
-	model inspect
-	
+	^ model
 ]
 
 { #category : 'converting' }
@@ -111,10 +116,10 @@ CtPModelBuilder >> fixRealtionsBetweenObjects [
 { #category : 'as yet unclassified' }
 CtPModelBuilder >> inspectorCapellaGraph: aBuilder [
 
-	<inspectorPresentationOrder: 1000 title: 'Piafs Dependencies Map'>
+	<inspectorPresentationOrder: 1000 title: 'CtP Map'>
 	| objects canvas |
 	objects := self selectSystemFunctionsAndLinkedObjects.
-		           
+
 
 	canvas := self rsCapellaGraphForObject: objects.
 

@@ -2709,8 +2709,10 @@ CtPModelBuilderTest >> testAsSAModel [
 		         file: file;
 		         build.
 	saModel := model asSAModel.
-	self halt.
-	self fail
+	self assert: saModel actors size equals: 2.
+	self assert: saModel functions size equals: 12.
+	self assert: saModel functionnalExchanges size equals: 13.
+	
 ]
 
 { #category : 'tests' }
