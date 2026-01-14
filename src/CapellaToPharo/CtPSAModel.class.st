@@ -6,7 +6,7 @@ Class {
 		'actors',
 		'functions',
 		'functionnalExchanges',
-		'system'
+		'systems'
 	],
 	#category : 'CapellaToPharo-System Analysis',
 	#package : 'CapellaToPharo',
@@ -19,6 +19,12 @@ CtPSAModel class >> example [
 	CtPImportModel modelForExample asSAModel inspect
 ]
 
+{ #category : 'examples' }
+CtPSAModel class >> example2 [
+
+	CtPImportModel modelForExample2 asSAModel inspect
+]
+
 { #category : 'accessing' }
 CtPSAModel >> actors [
 
@@ -28,19 +34,20 @@ CtPSAModel >> actors [
 { #category : 'building' }
 CtPSAModel >> build [
 
-	system := self capellaModel selectSystemSystem asSystemSystem.
+	systems := self capellaModel selectSystemSystems collect:
+		          #asSystemComponent.
 	actors := self capellaModel selectSystemActors collect:
-		          #asSystemActors.
+		          #asSystemComponent.
 	functions := self capellaModel selectSystemFunctions collect:
-		             #asSystemFunctions.
+		             #asSystemFunction.
 	functionnalExchanges := self capellaModel
 		                        selectSystemFunctionnalExchanges collect:
-		                        #asSystemFunctionnalExchanges.
+		                        #asSystemFunctionnalExchange.
 
-	system linksToFunctionsIn: functions.
+	systems do: [ :system | system  linksToFunctionsIn: functions ].
 	actors do: [ :actor | actor linksToFunctionsIn: functions ].
-	functionnalExchanges do: [ :fexchange |
-		fexchange linksToFunctionsIn: functions ]
+	functionnalExchanges do: [ :fexchange | fexchange linksToFunctionsIn: functions ]
+
 ]
 
 { #category : 'accessing' }
@@ -73,7 +80,7 @@ CtPSAModel >> inspectorCapellaGraph: aBuilder [
 
 	<inspectorPresentationOrder: 1000 title: 'CtP SA Map'>
 	| objects canvas |
-	objects := actors , functions , functionnalExchanges , { system }.
+	objects := actors , functions , functionnalExchanges, systems.
 
 
 	canvas := self rsCapellaGraphForObject: objects.
@@ -109,10 +116,4 @@ CtPSAModel >> rsCapellaGraphForObject: aCollection [
 		          yourself.
 	canvas newAnimation repeat onStepDo: [ :t | layout step ].
 	^ canvas
-]
-
-{ #category : 'accessing' }
-CtPSAModel >> system [
-
-	^ system
 ]

@@ -4,10 +4,10 @@ Class {
 	#instVars : [
 		'xmlNode',
 		'xmlDocument',
+		'attributes',
 		'links',
 		'parent',
 		'children',
-		'attributes',
 		'id',
 		'type',
 		'name'
@@ -76,25 +76,21 @@ CtPImportObject >> asRSShapeForInspection [
 ]
 
 { #category : 'converting' }
-CtPImportObject >> asSystemActors [
+CtPImportObject >> asSystemComponent [
 
-	^ self as: CtPSAActor
+	^ self as: CtPSAComponent
 ]
 
 { #category : 'converting' }
-CtPImportObject >> asSystemFunctionnalExchanges [
-	^ self as: CtPSAFunctionalExchange.
+CtPImportObject >> asSystemFunction [
+
+	^ self as: CtPSAFunction
 ]
 
 { #category : 'converting' }
-CtPImportObject >> asSystemFunctions [
-	^ self as: CtPSAFunction .
-]
+CtPImportObject >> asSystemFunctionnalExchange [
 
-{ #category : 'converting' }
-CtPImportObject >> asSystemSystem [
-
-	^ self as: CtPSASystem
+	^ self as: CtPSAFunctionalExchange
 ]
 
 { #category : 'accessing' }

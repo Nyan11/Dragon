@@ -1,5 +1,5 @@
 Class {
-	#name : 'CtPSAFunctionsHolder',
+	#name : 'CtPSAComponent',
 	#superclass : 'CtPSAObject',
 	#instVars : [
 		'functions'
@@ -10,19 +10,19 @@ Class {
 }
 
 { #category : 'accessing' }
-CtPSAFunctionsHolder >> functions [
+CtPSAComponent >> functions [
 
 	^ functions
 ]
 
 { #category : 'instance creation' }
-CtPSAFunctionsHolder >> functions: aCollection [
+CtPSAComponent >> functions: aCollection [
 
 	functions := aCollection
 ]
 
 { #category : 'as yet unclassified' }
-CtPSAFunctionsHolder >> linksToFunctionsIn: aCollection [
+CtPSAComponent >> linksToFunctionsIn: aCollection [
 
 	| capellaFunctions functionsToAdd |
 	capellaFunctions := (self capellaObject children select: [ :each |
@@ -38,7 +38,7 @@ CtPSAFunctionsHolder >> linksToFunctionsIn: aCollection [
 ]
 
 { #category : 'as yet unclassified' }
-CtPSAFunctionsHolder >> rsNextObjects [
+CtPSAComponent >> rsNextObjects [
 
 	^ functions
 ]

@@ -2768,8 +2768,8 @@ ExAExample class >> ensureCapellaFileIsCreated [
 ExAExample class >> example [
 
 	| repository |
-	self file ifNil: [ self ensureCapellaFileIsCreated.
-	self generateAllExAFlagsForExample ].
+	self file ifNil: [ "self ensureCapellaFileIsCreated.
+self generateAllExAFlagsForExample" ].
 	
 
 	repository := ExARepository new
