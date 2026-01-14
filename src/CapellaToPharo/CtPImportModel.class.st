@@ -119,7 +119,7 @@ CtPImportModel >> inspectorCapellaGraph: aBuilder [
 
 	<inspectorPresentationOrder: 1000 title: 'CtP Map'>
 	| objects canvas |
-	objects := self selectSystemFunctionsAndLinkedObjects.
+	objects := self capellaObjects.
 
 
 	canvas := self rsCapellaGraphForObject: objects.
