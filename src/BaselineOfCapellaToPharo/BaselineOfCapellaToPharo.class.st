@@ -29,9 +29,11 @@ BaselineOfCapellaToPharo >> baselineForCommon: spec [
 
 { #category : 'dependencies' }
 BaselineOfCapellaToPharo >> commonDependencies: spec [
-	"do nothing"
 
-	
+	spec
+		baseline: 'XPath'
+		with: [ spec repository: 'github://pharo-contributions/XML-XPath/src' ].
+
 ]
 
 { #category : 'baselines' }
