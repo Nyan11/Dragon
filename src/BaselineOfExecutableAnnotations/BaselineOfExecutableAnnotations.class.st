@@ -44,7 +44,7 @@ BaselineOfExecutableAnnotations >> commonPackages: spec [
 
 	"tests packages"
 	spec
-		package: 'ExecutableAnnotations-Tests'
+		package: 'ExecutableAnnotations-Example'
 		with: [ spec requires: #( 'ExecutableAnnotations' ) ]
 ]
 
