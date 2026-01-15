@@ -1,6 +1,6 @@
 Class {
-	#name : 'ExACapellaFlag',
-	#superclass : 'ExAFlag',
+	#name : 'ExACapellaAnnotation',
+	#superclass : 'ExAAnnotation',
 	#instVars : [
 		'file',
 		'id',
@@ -12,31 +12,31 @@ Class {
 }
 
 { #category : 'accessing' }
-ExACapellaFlag >> description: aString [
+ExACapellaAnnotation >> description: aString [
 
 	description := aString
 ]
 
 { #category : 'accessing' }
-ExACapellaFlag >> file [
+ExACapellaAnnotation >> file [
 
 	^ file
 ]
 
 { #category : 'accessing' }
-ExACapellaFlag >> file: anObject [
+ExACapellaAnnotation >> file: anObject [
 
 	file := anObject
 ]
 
 { #category : 'accessing' }
-ExACapellaFlag >> id [
+ExACapellaAnnotation >> id [
 
 	^ id
 ]
 
 { #category : 'accessing' }
-ExACapellaFlag >> id: anObject [
+ExACapellaAnnotation >> id: anObject [
 
 	id := anObject
 ]

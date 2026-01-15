@@ -2695,7 +2695,7 @@ ExAExample class >> capellaFunctionalExchange1 [
 
 	<ExA: #Example>
 
-		^ ExACapellaFlag new file: self file; id: 'db21218d-0cb1-4e86-82f0-7b1f78a15e7d'; description: 'The User shall Set Alarm Time by sending alarm time to Manage Alarm for the System.'; yourself
+		^ ExACapellaAnnotation new file: self file; id: 'db21218d-0cb1-4e86-82f0-7b1f78a15e7d'; description: 'The User shall Set Alarm Time by sending alarm time to Manage Alarm for the System.'; yourself
 ]
 
 { #category : 'generated' }
@@ -2703,7 +2703,7 @@ ExAExample class >> capellaFunctionalExchange2 [
 
 	<ExA: #Example>
 
-		^ ExACapellaFlag new file: self file; id: 'e2a9fddf-5a4b-4c7b-88a7-c35f5d1fd8f5'; description: 'The User shall Set Current Time by sending current time to Manage Clock for the System.'; yourself
+		^ ExACapellaAnnotation new file: self file; id: 'e2a9fddf-5a4b-4c7b-88a7-c35f5d1fd8f5'; description: 'The User shall Set Current Time by sending current time to Manage Clock for the System.'; yourself
 ]
 
 { #category : 'generated' }
@@ -2711,7 +2711,7 @@ ExAExample class >> capellaFunctionalExchange3 [
 
 	<ExA: #Example>
 
-		^ ExACapellaFlag new file: self file; id: 'debb9bd6-cb6e-4bf7-ab39-7da1de4c4d28'; description: 'The System shall Display Time by sending timestamp display to Get Time for the User.'; yourself
+		^ ExACapellaAnnotation new file: self file; id: 'debb9bd6-cb6e-4bf7-ab39-7da1de4c4d28'; description: 'The System shall Display Time by sending timestamp display to Get Time for the User.'; yourself
 ]
 
 { #category : 'generated' }
@@ -2719,7 +2719,7 @@ ExAExample class >> capellaFunctionalExchange4 [
 
 	<ExA: #Example>
 
-		^ ExACapellaFlag new file: self file; id: 'e9131872-8701-4311-9859-8312c2674df2'; description: 'The System shall Broadcast Radio to Listen to Radio for the User.'; yourself
+		^ ExACapellaAnnotation new file: self file; id: 'e9131872-8701-4311-9859-8312c2674df2'; description: 'The System shall Broadcast Radio to Listen to Radio for the User.'; yourself
 ]
 
 { #category : 'generated' }
@@ -2727,7 +2727,7 @@ ExAExample class >> capellaFunctionalExchange5 [
 
 	<ExA: #Example>
 
-		^ ExACapellaFlag new file: self file; id: 'b656f708-eb51-428c-819c-c91b8fb8cd78'; description: 'The User shall Set Radio to Receive Radio Waves for the System.'; yourself
+		^ ExACapellaAnnotation new file: self file; id: 'b656f708-eb51-428c-819c-c91b8fb8cd78'; description: 'The User shall Set Radio to Receive Radio Waves for the System.'; yourself
 ]
 
 { #category : 'generated' }
@@ -2735,7 +2735,7 @@ ExAExample class >> capellaFunctionalExchange6 [
 
 	<ExA: #Example>
 
-		^ ExACapellaFlag new file: self file; id: 'fc150e4d-2539-450c-adf7-b4f498f12e44'; description: 'The User shall Set Radio to Receive Radio Waves for the System.'; yourself
+		^ ExACapellaAnnotation new file: self file; id: 'fc150e4d-2539-450c-adf7-b4f498f12e44'; description: 'The User shall Set Radio to Receive Radio Waves for the System.'; yourself
 ]
 
 { #category : 'generated' }
@@ -2743,7 +2743,7 @@ ExAExample class >> capellaFunctionalExchange7 [
 
 	<ExA: #Example>
 
-		^ ExACapellaFlag new file: self file; id: '32b92390-03b1-4666-92a2-2bfce623861f'; description: 'The User shall Listen to Radio to Broadcast Radio for the System.'; yourself
+		^ ExACapellaAnnotation new file: self file; id: '32b92390-03b1-4666-92a2-2bfce623861f'; description: 'The User shall Listen to Radio to Broadcast Radio for the System.'; yourself
 ]
 
 { #category : 'generated' }
@@ -2751,7 +2751,7 @@ ExAExample class >> capellaFunctionalExchange8 [
 
 	<ExA: #Example>
 
-		^ ExACapellaFlag new file: self file; id: '2998b5c9-ec72-4fa7-ae6e-3d0c2229f080'; description: 'The User shall Set Alarm Time to Manage Alarm for the System.'; yourself
+		^ ExACapellaAnnotation new file: self file; id: '2998b5c9-ec72-4fa7-ae6e-3d0c2229f080'; description: 'The User shall Set Alarm Time to Manage Alarm for the System.'; yourself
 ]
 
 { #category : 'examples' }

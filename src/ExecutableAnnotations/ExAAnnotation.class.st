@@ -1,5 +1,5 @@
 Class {
-	#name : 'ExAFlag',
+	#name : 'ExAAnnotation',
 	#superclass : 'Object',
 	#category : 'ExecutableAnnotations',
 	#package : 'ExecutableAnnotations'
