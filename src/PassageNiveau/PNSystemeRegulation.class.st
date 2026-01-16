@@ -716,12 +716,14 @@ PNSystemeRegulation >> initialize [
 
 	| uiVoies |
 	super initialize.
+	self exa: PNRequirements capellaFunction3.
 	voies := Array new: self nbDeVoies.
 	voiturePasse := true.
 	userInterface := self class ui_system first.
-	uiVoies := (userInterface childWithId: #voies).
+	uiVoies := userInterface childWithId: #voies.
 	uiVoies removeChildren.
-	1 to: self nbDeVoies + 1 do: [ :i | uiVoies addChild: self class ui_voie first ]. 
+	1 to: self nbDeVoies + 1 do: [ :i |
+	uiVoies addChild: self class ui_voie first ].
 	((userInterface childWithId: #header) childWithId: #barriere)
 		clickAction: [ self voiturePasse: self voiturePasse not ].
 	tempsAbsolu := Time now.
@@ -744,8 +746,10 @@ PNSystemeRegulation >> tempsAbsolu [
 { #category : 'accessing' }
 PNSystemeRegulation >> tempsAbsolu: anObject [
 
+	
 	tempsAbsolu := anObject.
 	self trainsEnPartances do: [ :each |
+			self exa: PNRequirements capellaFunction6.
 			each autorisation: self voiturePasse not.
 			each depart: self avecDelais: tempsAbsolu ]
 ]
@@ -764,6 +768,7 @@ PNSystemeRegulation >> trainArriveEnGare: aTrain [
 PNSystemeRegulation >> trainQuitteLaGare: aTrain [
 
 	| index |
+	self exa: PNRequirements capellaFunction7.
 	index := voies indexOf: aTrain.
 	self voies at: index put: nil
 ]

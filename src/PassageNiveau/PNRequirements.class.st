@@ -2809,3 +2809,15 @@ PNRequirements class >> importFunctions: functions exchanges: exchanges chains: 
 			withFunctions: functions
 			withExchanges: exchanges ]
 ]
+
+{ #category : 'tests' }
+PNRequirements >> test [
+
+	PNRequirements capellaFunction4
+]
+
+{ #category : 'tests' }
+PNRequirements >> test2 [
+
+	self exa: PNRequirements capellaFunction2
+]

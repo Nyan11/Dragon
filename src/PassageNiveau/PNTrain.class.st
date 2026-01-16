@@ -21,12 +21,14 @@ PNTrain >> autorisation [
 { #category : 'accessing' }
 PNTrain >> autorisation: anObject [
 
+	self exa: PNRequirements capellaFunction5.
 	autorisation := anObject
 ]
 
 { #category : 'as yet unclassified' }
 PNTrain >> depart: aSystemRegulation [
 
+	self exa: PNRequirements capellaFunction1.
 	aSystemRegulation trainQuitteLaGare: self
 ]
 
@@ -34,6 +36,7 @@ PNTrain >> depart: aSystemRegulation [
 PNTrain >> depart: aSystemRegulation avecDelais: aTime [
 
 	self autorisation ifFalse: [ ^ self ].
+	self exa: PNRequirements capellaFunction4.
 	(self tempsDepart addSeconds: 5) < aTime ifTrue: [
 		self depart: aSystemRegulation ]
 ]
