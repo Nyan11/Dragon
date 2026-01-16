@@ -2425,6 +2425,247 @@ PNRequirements class >> capellaFileContent [
 '
 ]
 
+{ #category : 'generated' }
+PNRequirements class >> capellaFunction1 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'cc600fc2-e6af-486c-9346-69b49cc8cb21';
+		name: 'Démarre et franchit le passage';
+		description: 'A capella function.';
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunction2 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'cd468610-1bc9-46b8-b111-aef755fcf780';
+		name: 'Signale au train l''autorisation de démarrer';
+		description: 'A capella function.';
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunction3 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: '54b14102-3ad6-4a2e-bfe3-90c76680f870';
+		name: 'Supervise la procédure de départ';
+		description: 'A capella function.';
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunction4 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: '3d6e5811-132e-4366-be8d-3c781083e703';
+		name: 'Lance la procédure de départ';
+		description: 'A capella function.';
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunction5 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'f845f6d1-b10a-4cb2-b8ad-4cf46da4b0eb';
+		name: 'Attend l''autorisation de départ';
+		description: 'A capella function.';
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunction6 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'fa59b83b-f039-44a7-98f6-a3bb04639b20';
+		name: 'Signale au train l''interdiction de démarrer';
+		description: 'A capella function.';
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunction7 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'd35e2a23-cd82-487f-a8e9-ca58eca0e547';
+		name: 'Détecte le franchissement par le train partant';
+		description: 'A capella function.';
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalChain1 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: '3c43ab9f-d00d-4f1c-a588-f5ccb18ce101';
+		name: 'Déblocage du train au départ';
+		description: 'A capella chain.';
+		linkedAnnotations: {
+			self capellaFunction1.
+			self capellaFunction2.
+			self capellaFunction3.
+			self capellaFunctionalExchange1.
+			self capellaFunctionalExchange2
+		};
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalChain2 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: '39f5b423-5955-49e3-a1d7-9bc8b81d49e1';
+		name: 'Blocage du train au départ';
+		description: 'A capella chain.';
+		linkedAnnotations: {
+			self capellaFunction3.
+			self capellaFunction4.
+			self capellaFunction5.
+			self capellaFunction6.
+			self capellaFunctionalExchange3.
+			self capellaFunctionalExchange4.
+			self capellaFunctionalExchange5
+		};
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalChain3 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'bb356708-cda9-4680-9167-e0bf8dcc33a1';
+		name: 'Détection de passage du train au départ';
+		description: 'A capella chain.';
+		linkedAnnotations: {
+			self capellaFunction1.
+			self capellaFunction3.
+			self capellaFunction7.
+			self capellaFunctionalExchange6.
+			self capellaFunctionalExchange7
+		};
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalExchange1 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: '61e16db8-cd53-47df-9654-76ff0019000a';
+		name: 'Consigne de départ de train';
+		description: 'A capella exchange.
+The function "Supervise la procédure de départ" send "Consigne de départ de train" to the function "Signale au train l''autorisation de démarrer".';
+		linkedAnnotations: { self capellaFunction3 . self capellaFunction2 };
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalExchange2 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'fcb06ea3-07ed-42aa-8fa1-d3e9e609aa0e';
+		name: 'Autorisation de départ du train';
+		description: 'A capella exchange.
+The function "Signale au train l''autorisation de démarrer" send "Autorisation de départ du train" to the function "Démarre et franchit le passage".';
+		linkedAnnotations: { self capellaFunction2 . self capellaFunction1 };
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalExchange3 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: '54522c92-70ed-4342-ad53-e59491f698b1';
+		name: 'Information train en partance';
+		description: 'A capella exchange.
+The function "Lance la procédure de départ" send "Information train en partance" to the function "Supervise la procédure de départ".';
+		linkedAnnotations: { self capellaFunction4 . self capellaFunction3 };
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalExchange4 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: '347b1622-4e1d-4513-9434-a843f9eec92e';
+		name: 'Consigne de blocage du train au départ';
+		description: 'A capella exchange.
+The function "Supervise la procédure de départ" send "Consigne de blocage du train au départ" to the function "Signale au train l''interdiction de démarrer".';
+		linkedAnnotations: { self capellaFunction3 . self capellaFunction6 };
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalExchange5 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'f1b96c69-4b60-4d9e-97c0-db56e45a0f98';
+		name: 'Interdiction de démarrer';
+		description: 'A capella exchange.
+The function "Signale au train l''interdiction de démarrer" send "Interdiction de démarrer" to the function "Attend l''autorisation de départ".';
+		linkedAnnotations: { self capellaFunction6 . self capellaFunction5 };
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalExchange6 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: '1a284f4c-e169-4d5f-94ae-f37e7cd9e14e';
+		name: 'Information train passé';
+		description: 'A capella exchange.
+The function "Démarre et franchit le passage" send "Information train passé" to the function "Détecte le franchissement par le train partant".';
+		linkedAnnotations: { self capellaFunction1 . self capellaFunction7 };
+		yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> capellaFunctionalExchange7 [
+
+	<ExA: #PassageNiveau>
+	^ ExACapellaAnnotation new
+		file: self file;
+		id: 'c0893db7-2ae2-4fc5-b7bf-11c68b14ee48';
+		name: 'Franchissement du passage par le train en partance';
+		description: 'A capella exchange.
+The function "Détecte le franchissement par le train partant" send "Franchissement du passage par le train en partance" to the function "Supervise la procédure de départ".';
+		linkedAnnotations: { self capellaFunction7 . self capellaFunction3 };
+		yourself
+]
+
 { #category : 'examples' }
 PNRequirements class >> ensureCapellaFileIsCreated [
 
@@ -2468,18 +2709,87 @@ PNRequirements class >> importAllRequirements [
 ]
 
 { #category : 'as yet unclassified' }
+PNRequirements class >> importChains: aChain atIndex: anInteger withFunctions: functions withExchanges: exchanges [
+
+	| ids linkedFunctions linkedExchanges template id n description body linkedStrings accu |
+	ids := (XPath for: 'ownedFunctionalChainInvolvements' in: aChain)
+		       asArray collect: [ :node |
+		       (node attributeAt: 'involved') allButFirst ].
+	linkedFunctions := functions select: [ :each |
+		                   ids includes: (each attributeAt: 'id') ].
+	linkedExchanges := exchanges select: [ :each |
+		                   ids includes: (each attributeAt: 'id') ].
+
+	template := 'capellaFunctionalChain<1p><r><r><t>%<ExA: #PassageNiveau><r><t>^ ExACapellaAnnotation new<r><t><t>file: self file;<r><t><t>id: <2p>;<r><t><t>name: <3p>;<r><t><t>description: <4p>;<r><t><t>linkedAnnotations: <5s>;<r><t><t>yourself'.
+	id := aChain attributeAt: 'id'.
+	n := aChain attributeAt: 'name'.
+	description := 'A capella chain.'.
+	linkedStrings := linkedFunctions collect: [ :each |
+		                 'self capellaFunction<1p>' expandMacrosWith:
+			                 (functions indexOf: each) ].
+	linkedStrings := linkedStrings , (linkedExchanges collect: [ :each |
+			                  'self capellaFunctionalExchange<1p>'
+				                  expandMacrosWith: (exchanges indexOf: each) ]).
+	accu := '{<r>'.
+	linkedStrings
+		do: [ :s | accu := accu , '<t><t><t>' , s ]
+		separatedBy: [ accu := accu , '.<r>' ].
+	accu := accu , '<r><t><t>}'.
+
+	body := template expandMacrosWithArguments: {
+			        anInteger.
+			        id.
+			        n.
+			        description.
+			        accu expandMacros }.
+	self class compile: body classified: #generated
+]
+
+{ #category : 'as yet unclassified' }
 PNRequirements class >> importExchanges: exchange atIndex: index withFunctions: functions [
 
-	| inputPort outputPort inputFunction outputFunction |
-	inputPort := (exchange attributeAt: 'source') allButFirst.
-	outputPort := (exchange attributeAt: 'target') allButFirst.
+	| inputPort outputPort inputFunction outputFunction template id n description body |
+	inputPort := (exchange attributeAt: 'target') allButFirst.
+	outputPort := (exchange attributeAt: 'source') allButFirst.
 	inputFunction := (functions select: [ :f |
-		                  ((XPath for: '//*[@id="' , inputPort , '"]') in: f)
-			                  asArray isNotEmpty ]) first.
+			                  ((XPath for: 'inputs[@id="' , inputPort , '"]')
+				                   in: f) asArray isNotEmpty ]) first.
 	outputFunction := (functions select: [ :f |
-		                   ((XPath for: '//*[@id="' , inputPort , '"]') in:
-			                    f) asArray isNotEmpty ]) first.
-	self halt.
+			                   ((XPath for: 'outputs[@id="' , outputPort , '"]')
+				                    in: f) asArray isNotEmpty ]) first.
+
+	template := 'capellaFunctionalExchange<1p><r><r><t>%<ExA: #PassageNiveau><r><t>^ ExACapellaAnnotation new<r><t><t>file: self file;<r><t><t>id: <2p>;<r><t><t>name: <3p>;<r><t><t>description: <4p>;<r><t><t>linkedAnnotations: { self capellaFunction<5p> . self capellaFunction<6p> };<r><t><t>yourself'.
+	id := exchange attributeAt: 'id'.
+	n := exchange attributeAt: 'name'.
+	description := 'A capella exchange.<r>The function "<1s>" send "<2s>" to the function "<3s>".'
+		               expandMacrosWithArguments: {
+				               (outputFunction attributeAt: 'name').
+				               n.
+				               (inputFunction attributeAt: 'name') }.
+	body := template expandMacrosWithArguments: {
+			        index.
+			        id.
+			        n.
+			        description.
+			        (functions indexOf: outputFunction).
+			        (functions indexOf: inputFunction) }.
+	self class compile: body classified: #generated
+]
+
+{ #category : 'as yet unclassified' }
+PNRequirements class >> importFunction: aFunction atIndex: anInteger [
+
+	| template id n description body |
+	template := 'capellaFunction<1p><r><r><t>%<ExA: #PassageNiveau><r><t>^ ExACapellaAnnotation new<r><t><t>file: self file;<r><t><t>id: <2p>;<r><t><t>name: <3p>;<r><t><t>description: <4p>;<r><t><t>yourself'.
+	id := aFunction attributeAt: 'id'.
+	n := aFunction attributeAt: 'name'.
+	description := 'A capella function.'.
+	body := template expandMacrosWithArguments: {
+			        anInteger.
+			        id.
+			        n.
+			        description }.
+	self class compile: body classified: #generated
 ]
 
 { #category : 'as yet unclassified' }

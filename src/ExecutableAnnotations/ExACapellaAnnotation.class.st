@@ -1,8 +1,7 @@
 Class {
 	#name : 'ExACapellaAnnotation',
-	#superclass : 'ExAAnnotation',
+	#superclass : 'ExAFileAnnotation',
 	#instVars : [
-		'file',
 		'id',
 		'name',
 		'description'
@@ -12,21 +11,15 @@ Class {
 }
 
 { #category : 'accessing' }
+ExACapellaAnnotation >> description [
+
+	^ description
+]
+
+{ #category : 'accessing' }
 ExACapellaAnnotation >> description: aString [
 
 	description := aString
-]
-
-{ #category : 'accessing' }
-ExACapellaAnnotation >> file [
-
-	^ file
-]
-
-{ #category : 'accessing' }
-ExACapellaAnnotation >> file: anObject [
-
-	file := anObject
 ]
 
 { #category : 'accessing' }
@@ -39,4 +32,16 @@ ExACapellaAnnotation >> id [
 ExACapellaAnnotation >> id: anObject [
 
 	id := anObject
+]
+
+{ #category : 'accessing' }
+ExACapellaAnnotation >> name [
+
+	^ name
+]
+
+{ #category : 'accessing' }
+ExACapellaAnnotation >> name: anObject [
+
+	name := anObject
 ]
