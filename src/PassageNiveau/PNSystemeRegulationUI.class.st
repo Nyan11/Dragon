@@ -1,11 +1,8 @@
 Class {
-	#name : 'PNSystemeRegulation',
-	#superclass : 'Object',
+	#name : 'PNSystemeRegulationUI',
+	#superclass : 'BlElement',
 	#instVars : [
-		'voies',
-		'tempsAbsolu',
-		'voiturePasse',
-		'userInterface'
+		'systemeRegulation'
 	],
 	#category : 'PassageNiveau-user-interface',
 	#package : 'PassageNiveau',
@@ -13,7 +10,7 @@ Class {
 }
 
 { #category : 'pyramid-serialized-bloc' }
-PNSystemeRegulation class >> ui_system [
+PNSystemeRegulationUI class >> ui_system [
 	"This class has been generated using Pyramid.
 
 	By: 
@@ -605,7 +602,7 @@ toswitchbutton1 := ToSwitchButton new.
 ]
 
 { #category : 'pyramid-serialized-bloc' }
-PNSystemeRegulation class >> ui_voie [
+PNSystemeRegulationUI class >> ui_voie [
 	"This class has been generated using Pyramid.
 
 	By: 
@@ -711,83 +708,66 @@ PNSystemeRegulation class >> ui_voie [
    yourself)} ] value
 ]
 
+{ #category : 'as yet unclassified' }
+PNSystemeRegulationUI >> chainOfIds: aCollection [
+
+	| element |
+	element := self.
+	aCollection do: [ :each | element := element childWithId: each ].
+	^ element
+]
+
 { #category : 'initialization' }
-PNSystemeRegulation >> initialize [
+PNSystemeRegulationUI >> initialize [
+
+	super initialize.
+	self addChildren: self class ui_system.
+	self constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ]
+]
+
+{ #category : 'initialization' }
+PNSystemeRegulationUI >> open [
+
+	self openInNewSpace toTheme: ToRawDarkTheme new.
+]
+
+{ #category : 'accessing' }
+PNSystemeRegulationUI >> systemeRegulation [
+
+	^ systemeRegulation
+]
+
+{ #category : 'accessing' }
+PNSystemeRegulationUI >> systemeRegulation: anObject [
+
+	systemeRegulation := anObject.
+	self updateNbDeVoies
+]
+
+{ #category : 'accessing' }
+PNSystemeRegulationUI >> updateNbDeVoies [
 
 	| uiVoies |
-	super initialize.
-	self exa: PNRequirements capellaFunction3.
-	voies := Array new: self nbDeVoies.
-	voiturePasse := true.
-	userInterface := self class ui_system first.
-	uiVoies := userInterface childWithId: #voies.
+	uiVoies := self chainOfIds: { #systeme. #voies }.
 	uiVoies removeChildren.
-	1 to: self nbDeVoies + 1 do: [ :i |
+	1 to: self systemeRegulation nbDeVoies + 1 do: [ :i |
 	uiVoies addChild: self class ui_voie first ].
-	((userInterface childWithId: #header) childWithId: #barriere)
-		clickAction: [ self voiturePasse: self voiturePasse not ].
-	tempsAbsolu := Time now.
-	userInterface openInNewSpace toTheme: ToQuantumDarkTheme new.
-	self updateUI
-]
-
-{ #category : 'initialization' }
-PNSystemeRegulation >> nbDeVoies [
-
-	^ 8
-]
-
-{ #category : 'accessing' }
-PNSystemeRegulation >> tempsAbsolu [
-
-	^ tempsAbsolu
-]
-
-{ #category : 'accessing' }
-PNSystemeRegulation >> tempsAbsolu: anObject [
-
-	
-	tempsAbsolu := anObject.
-	self trainsEnPartances do: [ :each |
-			self exa: PNRequirements capellaFunction6.
-			each autorisation: self voiturePasse not.
-			each depart: self avecDelais: tempsAbsolu ]
-]
-
-{ #category : 'as yet unclassified' }
-PNSystemeRegulation >> trainArriveEnGare: aTrain [
-
-	| index |
-	index := voies indexOf: nil.
-	index = 0 ifTrue: [ ^ self ].
-	aTrain tempsArrive: Time now.
-	self voies at: index put: aTrain
-]
-
-{ #category : 'as yet unclassified' }
-PNSystemeRegulation >> trainQuitteLaGare: aTrain [
-
-	| index |
-	self exa: PNRequirements capellaFunction7.
-	index := voies indexOf: aTrain.
-	self voies at: index put: nil
-]
-
-{ #category : 'as yet unclassified' }
-PNSystemeRegulation >> trainsEnPartances [
-
-	^ self voies select: [ :train | train ifNil: [ false ] ifNotNil: [ train trainEnPartence: self tempsAbsolu ] ].
+	"(self chainOfIds: { #systeme. #header. #barriere }) clickAction: [
+			self systemeRegulation voiturePasse:
+				self systemeRegulation voiturePasse not ]"
 ]
 
 { #category : 'updating' }
-PNSystemeRegulation >> updateUI [
+PNSystemeRegulationUI >> updateUI [
 
 	| barriere uiVoies |
-	((self userInterface childWithId: #header) childWithId: #temps)
-		text: self tempsAbsolu printString asRopedText.
-	barriere := (self userInterface childWithId: #header) childWithId:
-		            #barriere.
-	self voiturePasse
+	(self chainOfIds: { #systeme. #header. #temps }) text:
+		self systemeRegulation tempsAbsolu printString asRopedText.
+
+	barriere := self chainOfIds: { #systeme. #header. #barriere }.
+	self systemeRegulation voiturePasse
 		ifTrue: [
 				barriere labelText: 'Barrière ouverte (Train KO)'.
 				barriere uncheck ]
@@ -795,9 +775,9 @@ PNSystemeRegulation >> updateUI [
 				barriere labelText: 'Barrière fermée (Train OK)'.
 				barriere check ].
 
-	uiVoies := (self userInterface childWithId: #voies) children asArray
+	uiVoies := (self chainOfIds: { #systeme. #voies }) children asArray
 		           allButFirst.
-	self voies doWithIndex: [ :train :index |
+	self systemeRegulation voies doWithIndex: [ :train :index |
 			| uiTrain |
 			uiTrain := uiVoies at: index.
 			train
@@ -812,37 +792,12 @@ PNSystemeRegulation >> updateUI [
 							train tempsArrive printString asRopedText.
 						(uiTrain childWithId: #depart) text:
 							train tempsDepart printString asRopedText.
-						(train trainEnPartence: self tempsAbsolu)
+						(train trainEnPartence: self systemeRegulation tempsAbsolu)
 							ifTrue: [
 									train autorisation
 										ifTrue: [
 										(uiTrain childWithId: #dot) background: Color green ]
 										ifFalse: [
 										(uiTrain childWithId: #dot) background: Color orange ] ]
-							ifFalse: [
-							(uiTrain childWithId: #dot) background: Color red ] ] ]
-]
-
-{ #category : 'accessing' }
-PNSystemeRegulation >> userInterface [
-
-	^ userInterface
-]
-
-{ #category : 'as yet unclassified' }
-PNSystemeRegulation >> voies [
-
-	^ voies
-]
-
-{ #category : 'accessing' }
-PNSystemeRegulation >> voiturePasse [
-
-	^ voiturePasse
-]
-
-{ #category : 'accessing' }
-PNSystemeRegulation >> voiturePasse: anObject [
-
-	voiturePasse := anObject
+							ifFalse: [ (uiTrain childWithId: #dot) background: Color red ] ] ]
 ]
