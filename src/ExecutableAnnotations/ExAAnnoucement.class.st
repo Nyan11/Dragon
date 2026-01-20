@@ -2,8 +2,9 @@ Class {
 	#name : 'ExAAnnoucement',
 	#superclass : 'Announcement',
 	#instVars : [
-		'executableFlag',
-		'object'
+		'object',
+		'executableAnnotation',
+		'method'
 	],
 	#classInstVars : [
 		'uniqueAnnouncer'
@@ -20,15 +21,27 @@ ExAAnnoucement class >> uniqueAnnouncer [
 ]
 
 { #category : 'accessing' }
-ExAAnnoucement >> executableFlag [
+ExAAnnoucement >> executableAnnotation [
 
-	^ executableFlag
+	^ executableAnnotation
 ]
 
 { #category : 'accessing' }
-ExAAnnoucement >> executableFlag: anObject [
+ExAAnnoucement >> executableAnnotation: anObject [
 
-	executableFlag := anObject
+	executableAnnotation := anObject
+]
+
+{ #category : 'accessing' }
+ExAAnnoucement >> method [
+
+	^ method
+]
+
+{ #category : 'accessing' }
+ExAAnnoucement >> method: anObject [
+
+	method := anObject
 ]
 
 { #category : 'accessing' }

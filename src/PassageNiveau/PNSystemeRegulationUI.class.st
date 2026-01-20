@@ -752,11 +752,14 @@ PNSystemeRegulationUI >> updateNbDeVoies [
 	| uiVoies |
 	uiVoies := self chainOfIds: { #systeme. #voies }.
 	uiVoies removeChildren.
-	1 to: self systemeRegulation nbDeVoies + 1 do: [ :i |
-	uiVoies addChild: self class ui_voie first ].
-	"(self chainOfIds: { #systeme. #header. #barriere }) clickAction: [
-			self systemeRegulation voiturePasse:
-				self systemeRegulation voiturePasse not ]"
+	uiVoies addChild: self class ui_voie first.
+	1 to: self systemeRegulation nbDeVoies do: [ :i |
+			| voie |
+			voie := self class ui_voie first.
+			uiVoies addChild: voie.
+			(voie childWithId: #dot)
+				exa: PNRequirements capellaFunctionalExchange5;
+				exa: PNRequirements capellaFunctionalExchange2 ]
 ]
 
 { #category : 'updating' }

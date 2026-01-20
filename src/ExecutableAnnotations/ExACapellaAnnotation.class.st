@@ -34,6 +34,13 @@ ExACapellaAnnotation >> id: anObject [
 	id := anObject
 ]
 
+{ #category : 'testing' }
+ExACapellaAnnotation >> isEquivalentTo: anAnnotation [
+
+	(super isEquivalentTo: anAnnotation) ifFalse: [ ^ false ].
+	^ self id = anAnnotation id
+]
+
 { #category : 'accessing' }
 ExACapellaAnnotation >> name [
 

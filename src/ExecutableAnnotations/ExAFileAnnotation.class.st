@@ -19,3 +19,10 @@ ExAFileAnnotation >> file: anObject [
 
 	file := anObject
 ]
+
+{ #category : 'testing' }
+ExAFileAnnotation >> isEquivalentTo: anAnnotation [
+
+	(super isEquivalentTo: anAnnotation) ifFalse: [ ^ false ].
+	^ self file = anAnnotation file
+]

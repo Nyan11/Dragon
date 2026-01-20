@@ -10,12 +10,45 @@ Class {
 	#package : 'ExecutableAnnotations'
 }
 
+{ #category : 'as yet unclassified' }
+ExAAnnotation class >> allAnnotationsNamed: aSymbol [
+
+	^ (Pragma allNamed: #ExA:)
+		  select: [ :each | each arguments first = aSymbol ]
+		  thenCollect: [ :each |
+				  | annotation |
+				  annotation := each method valueWithReceiver:
+					                each method methodClass instanceSide.
+				  annotation ]
+]
+
+{ #category : 'instance creation' }
+ExAAnnotation class >> new [
+
+	| annotation |
+	annotation := super new.
+	annotation privateMethod: thisContext sender method.
+	^ annotation
+]
+
+{ #category : 'as yet unclassified' }
+ExAAnnotation >> hasSenders [
+
+	^ self privateSenders isNotEmpty
+]
+
 { #category : 'initialization' }
 ExAAnnotation >> initialize [
 
 	super initialize.
 	linkedAnnotations := {  }.
-	privateSenders := {  }
+	privateSenders := {  }.
+]
+
+{ #category : 'testing' }
+ExAAnnotation >> isEquivalentTo: anAnnotation [
+
+	^ self class = anAnnotation class
 ]
 
 { #category : 'accessing' }
