@@ -4,7 +4,11 @@ Class {
 	#instVars : [
 		'linkedAnnotations',
 		'privateMethod',
-		'privateSenders'
+		'privateSenders',
+		'validationBlock'
+	],
+	#classInstVars : [
+		'cachedAnnotations'
 	],
 	#category : 'ExecutableAnnotations',
 	#package : 'ExecutableAnnotations'
@@ -22,13 +26,26 @@ ExAAnnotation class >> allAnnotationsNamed: aSymbol [
 				  annotation ]
 ]
 
+{ #category : 'accessing' }
+ExAAnnotation class >> cachedAnnotations [
+
+	cachedAnnotations ifNil: [ cachedAnnotations := Dictionary new ].
+	^ cachedAnnotations
+]
+
 { #category : 'instance creation' }
 ExAAnnotation class >> new [
 
-	| annotation |
-	annotation := super new.
-	annotation privateMethod: thisContext sender method.
-	^ annotation
+	| method |
+	method := thisContext sender method.
+	^ self cachedAnnotations
+		  at: method
+		  ifPresent: [ :ann | ^ ann ]
+		  ifAbsentPut: [
+				  | annotation |
+				  annotation := super new.
+				  annotation privateMethod: method.
+				  annotation ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -43,6 +60,12 @@ ExAAnnotation >> initialize [
 	super initialize.
 	linkedAnnotations := {  }.
 	privateSenders := {  }.
+	validationBlock := [ :annoucement |
+		                   self needSenders
+			                   ifTrue: [
+			                   self isEquivalentTo:
+				                   annoucement executableAnnotation ]
+			                   ifFalse: [ true ] ]
 ]
 
 { #category : 'testing' }
@@ -103,4 +126,16 @@ ExAAnnotation >> privateVerifySenderAST: anASTNode [
 	anASTNode receiver name = privateMethod methodClass instanceSide name ifFalse: [ ^ false ].
 	^ true
 					                
+]
+
+{ #category : 'accessing' }
+ExAAnnotation >> validationBlock [
+
+	^ validationBlock
+]
+
+{ #category : 'accessing' }
+ExAAnnotation >> validationBlock: anObject [
+
+	validationBlock := anObject
 ]

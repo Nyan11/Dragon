@@ -36,12 +36,14 @@ PNSystemeRegulationModel >> tempsAbsolu [
 { #category : 'accessing' }
 PNSystemeRegulationModel >> tempsAbsolu: anObject [
 
-	
 	tempsAbsolu := anObject.
 	self trainsEnPartances do: [ :each |
 			self exa: PNRequirements capellaFunction6.
+			self flag: 'Missing requirements'.
+			self exa: PNRequirements capellaFunction2.
 			each autorisation: self voiturePasse not.
-			each depart: self avecDelais: tempsAbsolu ]
+			self flag: 'Départ automatique'
+			"each depart: self avecDelais: tempsAbsolu" ]
 ]
 
 { #category : 'as yet unclassified' }

@@ -21,19 +21,22 @@ BlElement >> exaNewOverlayElement [
 
 	| overlay |
 	overlay := (BlOverlayElement on: self)
-		  outskirts: BlOutskirts outside;
-		  geometry: BlRectangleGeometry new;
-		  background: (Color cyan alpha: 0.5);
-		  border: (BlBorder builder
-				   paint: Color cyan;
-				   width: 2;
-				   build);
-		  yourself.
-		
-	overlay addEventHandler: (BlEventHandler on: BlClickEvent do: [ self userData
-		at: #executableAnnotations
-		ifPresent: [ :obj | obj inspect ]]).
-	
+		           outskirts: BlOutskirts outside;
+		           geometry: BlRectangleGeometry new;
+		           background: (Color cyan alpha: 0.5);
+		           border: (BlBorder builder
+				            paint: Color cyan;
+				            width: 2;
+				            build);
+		           yourself.
+
+	overlay addEventHandler: (BlEventHandler
+			 on: BlClickEvent
+			 do: [
+					 self userData
+						 at: #executableAnnotations
+						 ifPresent: [ :obj | obj inspect ] ]).
+
 	^ overlay
 ]
 

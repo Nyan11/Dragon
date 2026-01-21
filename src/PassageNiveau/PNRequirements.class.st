@@ -2573,13 +2573,19 @@ PNRequirements class >> capellaFunctionalExchange1 [
 
 	<ExA: #PassageNiveau>
 	^ ExACapellaAnnotation new
-		file: self file;
-		id: '61e16db8-cd53-47df-9654-76ff0019000a';
-		name: 'Consigne de départ de train';
-		description: 'A capella exchange.
+		  file: self file;
+		  id: '61e16db8-cd53-47df-9654-76ff0019000a';
+		  name: 'Consigne de départ de train';
+		  description: 'A capella exchange.
 The function "Supervise la procédure de départ" send "Consigne de départ de train" to the function "Signale au train l''autorisation de démarrer".';
-		linkedAnnotations: { self capellaFunction3 . self capellaFunction2 };
-		yourself
+		  linkedAnnotations: {
+				  self capellaFunction3.
+				  self capellaFunction2 };
+		  validationBlock: [ :announcement :report :linkedAnnotations |
+				  linkedAnnotations allSatisfy: [ :each |
+							  (report annotationsObjectsDictionary at: each) includes:
+									  announcement object ] ];
+		  yourself
 ]
 
 { #category : 'generated' }
@@ -2615,13 +2621,19 @@ PNRequirements class >> capellaFunctionalExchange4 [
 
 	<ExA: #PassageNiveau>
 	^ ExACapellaAnnotation new
-		file: self file;
-		id: '347b1622-4e1d-4513-9434-a843f9eec92e';
-		name: 'Consigne de blocage du train au départ';
-		description: 'A capella exchange.
+		  file: self file;
+		  id: '347b1622-4e1d-4513-9434-a843f9eec92e';
+		  name: 'Consigne de blocage du train au départ';
+		  description: 'A capella exchange.
 The function "Supervise la procédure de départ" send "Consigne de blocage du train au départ" to the function "Signale au train l''interdiction de démarrer".';
-		linkedAnnotations: { self capellaFunction3 . self capellaFunction6 };
-		yourself
+		  linkedAnnotations: {
+				  self capellaFunction3.
+				  self capellaFunction6 };
+		  validationBlock: [ :announcement :report :linkedAnnotations |
+				  linkedAnnotations allSatisfy: [ :each |
+							  (report annotationsObjectsDictionary at: each) includes:
+									  announcement object ] ];
+		  yourself
 ]
 
 { #category : 'generated' }
@@ -2657,13 +2669,46 @@ PNRequirements class >> capellaFunctionalExchange7 [
 
 	<ExA: #PassageNiveau>
 	^ ExACapellaAnnotation new
-		file: self file;
-		id: 'c0893db7-2ae2-4fc5-b7bf-11c68b14ee48';
-		name: 'Franchissement du passage par le train en partance';
-		description: 'A capella exchange.
+		  file: self file;
+		  id: 'c0893db7-2ae2-4fc5-b7bf-11c68b14ee48';
+		  name: 'Franchissement du passage par le train en partance';
+		  description: 'A capella exchange.
 The function "Détecte le franchissement par le train partant" send "Franchissement du passage par le train en partance" to the function "Supervise la procédure de départ".';
-		linkedAnnotations: { self capellaFunction7 . self capellaFunction3 };
-		yourself
+		  linkedAnnotations: {
+				  self capellaFunction7.
+				  self capellaFunction3 };
+		  validationBlock: [ :announcement :report :linkedAnnotations |
+				  linkedAnnotations allSatisfy: [ :each |
+							  (report annotationsObjectsDictionary at: each) includes:
+									  announcement object ] ];
+		  yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> comment1 [
+
+	<ExA: #PassageNiveau>
+	^ ExACommentAnnotation new
+		  comment: 'L''IHM contient l''état de la barrière.';
+		  yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> comment2 [
+
+	<ExA: #PassageNiveau>
+	^ ExACommentAnnotation new
+		  comment: 'L''IHM contient l''heure de la simulation.';
+		  yourself
+]
+
+{ #category : 'generated' }
+PNRequirements class >> comment3 [
+
+	<ExA: #PassageNiveau>
+	^ ExACommentAnnotation new
+		  comment: 'L''IHM contient une légende.';
+		  yourself
 ]
 
 { #category : 'examples' }

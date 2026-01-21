@@ -6,7 +6,6 @@ Class {
 		'annotationsObjectsDictionary',
 		'annotationsGraphicalObjectsDictionary',
 		'annotationsSuccessDictionary',
-		'annotationsFailureDictionary',
 		'highlightedAnnotations'
 	],
 	#category : 'ExecutableAnnotations',
@@ -39,45 +38,40 @@ ExAReport >> annotations: anObject [
 				put: Set new.
 			self annotationsSuccessDictionary
 				at: annotation
-				put: OrderedCollection new.
-			self annotationsFailureDictionary
-				at: annotation
 				put: OrderedCollection new ]
 ]
 
-{ #category : 'as yet unclassified' }
-ExAReport >> annotationsFailureDictionary [
-
-	^ annotationsFailureDictionary
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ExAReport >> annotationsGraphicalObjectsDictionary [
 
 	^ annotationsGraphicalObjectsDictionary
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ExAReport >> annotationsObjectsDictionary [
 
 	^ annotationsObjectsDictionary
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ExAReport >> annotationsSuccessDictionary [
 
 	^ annotationsSuccessDictionary
 ]
 
-{ #category : 'accessing' }
+{ #category : 'validation' }
 ExAReport >> annoucementExecuted: anExAAnnouncement [
 
-	| selectedAnnotation |
-	selectedAnnotation := self selectAnnotation:
-		                      anExAAnnouncement executableAnnotation.
-	self
-		validateAnnotation: selectedAnnotation
-		withEvent: anExAAnnouncement
+	| annotation |
+	annotation := self selectAnnotation:
+		              anExAAnnouncement executableAnnotation.
+	annotation ifNil: [ ^ self ].
+	(self annotationsObjectsDictionary at: annotation) add:
+		anExAAnnouncement object.
+	anExAAnnouncement object exaIsGraphicObject ifTrue: [
+			(self annotationsGraphicalObjectsDictionary at: annotation) add:
+				anExAAnnouncement object ].
+	self validateAnnotationswithEvent: anExAAnnouncement
 ]
 
 { #category : 'highlighting' }
@@ -95,10 +89,69 @@ ExAReport >> initialize [
 	annotationsObjectsDictionary := Dictionary new.
 	annotationsGraphicalObjectsDictionary := Dictionary new.
 	annotationsSuccessDictionary := Dictionary new.
-	annotationsFailureDictionary := Dictionary new
 ]
 
 { #category : 'as yet unclassified' }
+ExAReport >> inspectionAnnotationsObjectsGraph: aBuilder [
+
+	<inspectorPresentationOrder: 1000 title: 'Annotations-Objects Graph'>
+	| canvas annotationShapes objectShapes layout associations |
+	annotationShapes := self annotations collect: [ :each |
+			                    | shape |
+			                    shape := RSBox model: each.
+			                    shape @ RSPopup.
+			                    shape draggable.
+			                    shape color: Color cyan.
+			                    shape ].
+	objectShapes := self annotationsObjectsDictionary values
+		                flatCollect: [ :col |
+				                col collect: [ :each |
+						                | shape |
+						                shape := each exaIsGraphicObject
+							                         ifTrue: [ RSCircle new ]
+							                         ifFalse: [ RSBox new ].
+						                shape model: each.
+						                shape @ RSPopup.
+						                shape draggable.
+						                shape color: Color gray.
+						                shape ] ].
+
+	canvas := RSCanvas new.
+	canvas addAll: annotationShapes.
+	canvas addAll: objectShapes.
+	canvas @ RSCanvasController.
+	canvas shapes @ RSHighlightable red.
+
+	associations := self annotationsObjectsDictionary associations
+		                flatCollect: [ :asso |
+		                asso value collect: [ :obj | asso key -> obj ] ].
+
+	"RSLineBuilder line
+		color: Color cyan;
+		canvas: canvas;
+		shapes: annotationShapes;
+		connectFromAll: [ :each | each linkedAnnotations collect: [ :la | self selectAnnotation: la ] ] ."
+
+	RSLineBuilder line
+		color: Color black;
+		canvas: canvas;
+		fromShapes: annotationShapes;
+		toShapes: objectShapes;
+		useAssociations: associations.
+
+	layout := RSForceBasedLayout new
+		          nodes: annotationShapes , objectShapes;
+		          edges: canvas lines;
+		          start;
+		          yourself.
+	canvas newAnimation repeat onStepDo: [ :t | layout step ].
+
+	^ (aBuilder instantiate: SpRoassalInspectorPresenter)
+		  canvas: canvas;
+		  yourself
+]
+
+{ #category : 'validation' }
 ExAReport >> isAnnotationAlreadyValid: anAnnotation [
 
 	^ (self annotationsSuccessDictionary at: anAnnotation) isNotEmpty
@@ -110,14 +163,6 @@ ExAReport >> isAnnotationHighlighted: anAnnotation [
 	^ self highlightedAnnotations includes: anAnnotation
 ]
 
-{ #category : 'as yet unclassified' }
-ExAReport >> isAnnotationValid: anAnnotation withEvent: anExAAnnouncement [
-
-	| linkedAnnotations |
-	linkedAnnotations := anAnnotation linkedAnnotations collect: [ :annotation | self selectAnnotation: annotation ].
-	^ linkedAnnotations allSatisfy: [ :each | self isAnnotationAlreadyValid: each ]
-]
-
 { #category : 'highlighting' }
 ExAReport >> removeHighlightFor: anAnnotation [
 
@@ -125,18 +170,18 @@ ExAReport >> removeHighlightFor: anAnnotation [
 	self updateHighlightedAnnotations
 ]
 
-{ #category : 'accessing' }
+{ #category : 'validation' }
 ExAReport >> selectAnnotation: anAnnotation [
 
 	| selectedAnnotations |
 	selectedAnnotations := self annotations select: [ :annotation |
 		                       annotation isEquivalentTo:
 			                       anAnnotation ].
-	selectedAnnotations ifEmpty: [ ^ self error: 'no annotation found' ].
+	selectedAnnotations ifEmpty: [ ^ nil ].
 	^ selectedAnnotations first
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'validation' }
 ExAReport >> startReporting [
 
 	ExAAnnoucement uniqueAnnouncer weak
@@ -159,24 +204,31 @@ ExAReport >> updateHighlightedAnnotations [
 						ifFalse: [ each exaRemoveHighlightFor: annotation ] ] ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'validation' }
 ExAReport >> validateAnnotation: anAnnotation withEvent: anExAAnnouncement [
 
-	| validationResult |
-	(self annotationsObjectsDictionary at: anAnnotation) add:
-		anExAAnnouncement object.
-	anExAAnnouncement object exaIsGraphicObject ifTrue: [
-			(self annotationsGraphicalObjectsDictionary at: anAnnotation) add:
-				anExAAnnouncement object ].
-	(self isAnnotationAlreadyValid: anAnnotation) ifTrue: [ ^ self ].
-	validationResult := self
-		                    isAnnotationValid: anAnnotation
-		                    withEvent: anExAAnnouncement.
-	validationResult
-		ifTrue: [
-				(self annotationsSuccessDictionary at: anAnnotation) add:
-					anExAAnnouncement ]
-		ifFalse: [
-				(self annotationsFailureDictionary at: anAnnotation) add:
-					anExAAnnouncement ]
+	| linkedAnnotations validationOfLinkedAnnotations result |
+	(self isAnnotationAlreadyValid: anAnnotation) ifTrue: [ ^ true ].
+	linkedAnnotations := anAnnotation linkedAnnotations collect: [
+		                     :annotation |
+		                     self selectAnnotation: annotation ].
+	validationOfLinkedAnnotations := linkedAnnotations allSatisfy: [
+		                                 :each |
+		                                 self isAnnotationAlreadyValid: each ].
+	validationOfLinkedAnnotations ifFalse: [ ^ false ].
+	result := anAnnotation validationBlock valueWithEnoughArguments: {
+			          anExAAnnouncement.
+			          self.
+			          linkedAnnotations }.
+	result ifFalse: [ ^ false ].
+	(self annotationsSuccessDictionary at: anAnnotation) add:
+		anExAAnnouncement.
+	self validateAnnotationswithEvent: anExAAnnouncement
+]
+
+{ #category : 'validation' }
+ExAReport >> validateAnnotationswithEvent: anExAAnnouncement [
+
+	self annotations do: [ :each |
+		self validateAnnotation: each withEvent: anExAAnnouncement ]
 ]
