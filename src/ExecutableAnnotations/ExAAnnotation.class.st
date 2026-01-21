@@ -27,6 +27,12 @@ ExAAnnotation class >> allAnnotationsNamed: aSymbol [
 ]
 
 { #category : 'accessing' }
+ExAAnnotation class >> cacheToNil [
+
+	cachedAnnotations := nil
+]
+
+{ #category : 'accessing' }
 ExAAnnotation class >> cachedAnnotations [
 
 	cachedAnnotations ifNil: [ cachedAnnotations := Dictionary new ].
@@ -46,6 +52,13 @@ ExAAnnotation class >> new [
 				  annotation := super new.
 				  annotation privateMethod: method.
 				  annotation ]
+]
+
+{ #category : 'accessing' }
+ExAAnnotation class >> resetCaches [
+
+	<script>
+	self withAllSubclassesDo: [ :each | each cacheToNil ].
 ]
 
 { #category : 'as yet unclassified' }
@@ -90,6 +103,15 @@ ExAAnnotation >> linkedAnnotations: anObject [
 ExAAnnotation >> needSenders [
 
 	^ self linkedAnnotations isEmpty and: [ self privateSenders isEmpty ]
+]
+
+{ #category : 'printing' }
+ExAAnnotation >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream << ' ('.
+	self privateMethod printOn: aStream.
+	aStream << ')'
 ]
 
 { #category : 'accessing' }
