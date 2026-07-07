@@ -81,6 +81,12 @@ ExAAnnotation >> initialize [
 			                   ifFalse: [ true ] ]
 ]
 
+{ #category : 'nil' }
+ExAAnnotation >> inspectorColor [
+
+	^ Color white
+]
+
 { #category : 'testing' }
 ExAAnnotation >> isEquivalentTo: anAnnotation [
 

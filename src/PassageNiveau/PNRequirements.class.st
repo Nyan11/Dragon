@@ -2711,6 +2711,15 @@ PNRequirements class >> comment3 [
 		  yourself
 ]
 
+{ #category : 'generated' }
+PNRequirements class >> comment4 [
+
+	<ExA: #PassageNiveau>
+	^ ExACommentAnnotation new
+		  comment: 'L''IHM permet de manuellement faire partir les trains.';
+		  yourself
+]
+
 { #category : 'examples' }
 PNRequirements class >> ensureCapellaFileIsCreated [
 

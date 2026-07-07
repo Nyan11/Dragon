@@ -356,7 +356,8 @@ PNSystemeRegulationUI >> updateNbDeVoies [
 				clickAction: [
 					(self systemeRegulation voies at: i) depart:
 							self systemeRegulation ];
-				exa: PNRequirements capellaFunction1 ]
+				exa: PNRequirements capellaFunction1;
+				exa: PNRequirements comment4 ]
 ]
 
 { #category : 'updating' }

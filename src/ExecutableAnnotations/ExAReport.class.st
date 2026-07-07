@@ -95,26 +95,29 @@ ExAReport >> initialize [
 ExAReport >> inspectionAnnotationsObjectsGraph: aBuilder [
 
 	<inspectorPresentationOrder: 1000 title: 'Annotations-Objects Graph'>
-	| canvas annotationShapes objectShapes layout associations |
+	| canvas annotationShapes objectShapes layout associations colorOfAnnotations objectEdges associationEdges |
+	colorOfAnnotations := Color blue.
 	annotationShapes := self annotations collect: [ :each |
 			                    | shape |
 			                    shape := RSBox model: each.
 			                    shape @ RSPopup.
 			                    shape draggable.
-			                    shape color: Color cyan.
+			                    shape color: each inspectorColor.
+			                    shape borderColor: Color black.
 			                    shape ].
-	objectShapes := self annotationsObjectsDictionary values
-		                flatCollect: [ :col |
-				                col collect: [ :each |
-						                | shape |
-						                shape := each exaIsGraphicObject
-							                         ifTrue: [ RSCircle new ]
-							                         ifFalse: [ RSBox new ].
-						                shape model: each.
-						                shape @ RSPopup.
-						                shape draggable.
-						                shape color: Color gray.
-						                shape ] ].
+	objectShapes := self annotationsObjectsDictionary values flattened
+		                asBag valuesAndCounts associations collect: [ :each |
+			                | shape |
+			                shape := each key exaIsGraphicObject
+				                         ifTrue: [ RSCircle new ]
+				                         ifFalse: [ RSBox new ].
+			                shape model: each key.
+			                shape borderColor: Color black.
+			                shape color: Color gray.
+			                shape @ RSPopup.
+			                shape draggable.
+			                shape size: 3 * each value + 5.
+			                shape ].
 
 	canvas := RSCanvas new.
 	canvas addAll: annotationShapes.
@@ -126,22 +129,106 @@ ExAReport >> inspectionAnnotationsObjectsGraph: aBuilder [
 		                flatCollect: [ :asso |
 		                asso value collect: [ :obj | asso key -> obj ] ].
 
-	"RSLineBuilder line
-		color: Color cyan;
-		canvas: canvas;
-		shapes: annotationShapes;
-		connectFromAll: [ :each | each linkedAnnotations collect: [ :la | self selectAnnotation: la ] ] ."
+	objectEdges := RSLineBuilder line
+		               color: Color black;
+		               moveBehind;
+		               canvas: canvas;
+		               fromShapes: annotationShapes asArray;
+		               toShapes: objectShapes asArray;
+		               useAssociations: associations asArray.
+	annotationShapes do: [ :each |
+		each size: (each connectedEdges size min: 12) + 5 ].
 
-	RSLineBuilder line
-		color: Color black;
-		canvas: canvas;
-		fromShapes: annotationShapes;
-		toShapes: objectShapes;
-		useAssociations: associations.
+	"associationEdges := RSLineBuilder line
+		                    color: colorOfAnnotations;
+		                    moveBehind;
+		                    canvas: canvas;
+		                    shapes: annotationShapes;
+		                    connectToAll: [ :each | each linkedAnnotations ]."
+
+	RSConditionalLayout new
+		ifNotConnectedThen: RSGridLayout new;
+		else: (RSClusteringLayout new
+				 clustersLayout: RSFlowLayout new;
+				 forEachLayout: (layout := RSForceBasedLayout new
+						            nodes:
+							            annotationShapes asArray , objectShapes asArray;
+						            edges: objectEdges;
+						            start;
+						            yourself));
+		on: annotationShapes asArray , objectShapes asArray.
+
+	"layout := RSForceBasedLayout new
+		          nodes: annotationShapes asArray , objectShapes asArray;
+		          edges: objectEdges;
+		          start;
+		          yourself."
+	canvas newAnimation repeat onStepDo: [ :t | layout step ].
+
+	^ (aBuilder instantiate: SpRoassalInspectorPresenter)
+		  canvas: canvas;
+		  yourself
+]
+
+{ #category : 'as yet unclassified' }
+ExAReport >> inspectionAnnotationsObjectsGraphAlt: aBuilder [
+
+	<inspectorPresentationOrder: 1001 title:
+	'Annotations-Objects Graph - Alt 1'>
+	| canvas annotationShapes objectShapes layout associations colorOfAnnotations objectEdges associationEdges |
+	colorOfAnnotations := Color blue.
+	annotationShapes := self annotations collect: [ :each |
+			                    | shape |
+			                    shape := RSBox model: each.
+			                    shape @ RSPopup.
+			                    shape draggable.
+			                    shape color: each inspectorColor.
+			                    shape borderColor: Color black.
+			                    shape ].
+	objectShapes := self annotationsObjectsDictionary values flattened
+		                asBag valuesAndCounts associations collect: [ :each |
+			                | shape |
+			                shape := each key exaIsGraphicObject
+				                         ifTrue: [ RSCircle new ]
+				                         ifFalse: [ RSBox new ].
+			                shape model: each key.
+			                shape borderColor: Color black.
+			                shape color: Color gray.
+			                shape @ RSPopup.
+			                shape draggable.
+			                shape size: 3 * each value + 5.
+			                shape ].
+
+	canvas := RSCanvas new.
+	canvas addAll: annotationShapes.
+	canvas addAll: objectShapes.
+	canvas @ RSCanvasController.
+	canvas shapes @ RSHighlightable red.
+
+	associations := self annotationsObjectsDictionary associations
+		                flatCollect: [ :asso |
+		                asso value collect: [ :obj | asso key -> obj ] ].
+
+	objectEdges := RSLineBuilder line
+		               color: Color black;
+		               moveBehind;
+		               canvas: canvas;
+		               fromShapes: annotationShapes asArray;
+		               toShapes: objectShapes asArray;
+		               useAssociations: associations asArray.
+	annotationShapes do: [ :each |
+		each size: (each connectedEdges size min: 12) + 5 ].
+
+	associationEdges := RSLineBuilder line
+		                    color: colorOfAnnotations;
+		                    moveBehind;
+		                    canvas: canvas;
+		                    shapes: annotationShapes;
+		                    connectToAll: [ :each | each linkedAnnotations ].
 
 	layout := RSForceBasedLayout new
-		          nodes: annotationShapes , objectShapes;
-		          edges: canvas lines;
+		          nodes: annotationShapes asArray , objectShapes asArray;
+		          edges: objectEdges;
 		          start;
 		          yourself.
 	canvas newAnimation repeat onStepDo: [ :t | layout step ].

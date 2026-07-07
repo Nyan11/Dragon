@@ -20,6 +20,12 @@ ExAFileAnnotation >> file: anObject [
 	file := anObject
 ]
 
+{ #category : 'nil' }
+ExAFileAnnotation >> inspectorColor [
+
+	^ Color blue
+]
+
 { #category : 'testing' }
 ExAFileAnnotation >> isEquivalentTo: anAnnotation [
 

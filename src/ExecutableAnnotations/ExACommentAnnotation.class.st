@@ -20,6 +20,12 @@ ExACommentAnnotation >> comment: anObject [
 	comment := anObject
 ]
 
+{ #category : 'nil' }
+ExACommentAnnotation >> inspectorColor [
+
+	^ Color yellow
+]
+
 { #category : 'testing' }
 ExACommentAnnotation >> isEquivalentTo: anAnnotation [
 
