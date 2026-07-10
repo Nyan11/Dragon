@@ -13,8 +13,6 @@ ProliExTraficControlOperatorType classSide >> consumedComponentEvents [
 	<componentContract>
 	^ {
 		  ProliExDetectVehiculeStoppedOnTrackEvent.
-		  ProliExImplementArrivalProcedureEvent.
-		  ProliExImplementDepartureProcedureEvent.
 		  ProliExTestProperOperationEvent }
 ]
 
@@ -26,5 +24,7 @@ ProliExTraficControlOperatorType classSide >> usedComponentServices [
 		  ProliExControlPowerSupplyToTrainsService.
 		  ProliExControlRoadTrafficService.
 		  ProliExControlRoadDevicesService.
+		  ProliExImplementArrivalProcedureService.
+		  ProliExImplementDepartureProcedureService.
 		  ProliExTestProperOperationService }
 ]

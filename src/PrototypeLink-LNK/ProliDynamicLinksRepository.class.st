@@ -5,31 +5,51 @@ Class {
 		'dynamicLinks',
 		'isWatching'
 	],
+	#classInstVars : [
+		'announcer',
+		'unique'
+	],
 	#category : 'PrototypeLink-LNK',
 	#package : 'PrototypeLink-LNK'
 }
 
+{ #category : 'accessing' }
+ProliDynamicLinksRepository class >> announcer [
+
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : 'accessing' }
+ProliDynamicLinksRepository class >> reset [
+
+	<script>
+	unique := nil
+]
+
+{ #category : 'accessing' }
+ProliDynamicLinksRepository class >> unique [
+
+	^ unique ifNil: [ unique := self new ]
+]
+
 { #category : 'initialization' }
-ProliDynamicLinksRepository >> addNewDynamicLink: aProliDynamicLinkCreated [
+ProliDynamicLinksRepository >> addNewDynamicLink: aProliDynamicLink [
 
 	self isWatching ifFalse: [ ^ self ].
-	self dynamicLinks add: aProliDynamicLinkCreated dynamicLink
+	self dynamicLinks add: aProliDynamicLink
 ]
 
 { #category : 'as yet unclassified' }
 ProliDynamicLinksRepository >> allLinksWithObject: anObject [
 
-	self isWatching ifTrue: [ ^ self ].
-	^ self dynamicLinks select: [ :each |
-		  each object = anObject ]
+	^ self dynamicLinks select: [ :each | each object = anObject ]
 ]
 
 { #category : 'as yet unclassified' }
 ProliDynamicLinksRepository >> allLinksWithRequirementReference: aRequirementReference [
 
-	self isWatching ifTrue: [ ^ self ].
 	^ self dynamicLinks select: [ :each |
-		each requirementReference = aRequirementReference ]
+		  each requirementReference = aRequirementReference ]
 ]
 
 { #category : 'accessing' }
@@ -50,10 +70,10 @@ ProliDynamicLinksRepository >> initialize [
 	super initialize.
 
 	dynamicLinks := OrderedCollection new.
-	isWatching := false.
+	isWatching := true.
 
-	ProliDynamicLink announcer
-		when: ProliDynamicLinkCreated
+	self class announcer
+		when: ProliDynamicLink
 		send: #addNewDynamicLink:
 		to: self
 ]
@@ -68,8 +88,7 @@ ProliDynamicLinksRepository >> isWatching [
 ProliDynamicLinksRepository >> removeSubscription [
 
 	self stopWatching.
-	ProliDynamicLink announcer unsubscribe: self.
-	
+	self class announcer unsubscribe: self
 ]
 
 { #category : 'as yet unclassified' }

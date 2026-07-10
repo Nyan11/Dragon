@@ -8,13 +8,18 @@ Trait {
 }
 
 { #category : 'accessing - events' }
+ProliExControlSystemType classSide >> consumedComponentEvents [
+
+	<componentContract>
+	^ { ProliExControlMovmentsOnTrack }
+]
+
+{ #category : 'accessing - events' }
 ProliExControlSystemType classSide >> producedComponentEvents [
 
 	<componentContract>
 	^ {
 		  ProliExDetectVehiculeStoppedOnTrackEvent.
-		  ProliExImplementArrivalProcedureEvent.
-		  ProliExImplementDepartureProcedureEvent.
 		  ProliExTestProperOperationEvent }
 ]
 
@@ -24,5 +29,7 @@ ProliExControlSystemType classSide >> providedComponentServices [
 	<componentContract>
 	^ {
 		  ProliExControlRoadTrafficService.
-		  ProliExTestProperOperationService }
+		  ProliExTestProperOperationService.
+		ProliExImplementArrivalProcedureService.
+		ProliExImplementDepartureProcedureService }
 ]

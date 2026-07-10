@@ -2,10 +2,10 @@ Class {
 	#name : 'ProliRequirementReference',
 	#superclass : 'Object',
 	#instVars : [
+		'uniqueId',
 		'source',
 		'retreiveContent',
-		'verificationProcess',
-		'tags'
+		'verificationProcess'
 	],
 	#classInstVars : [
 		'requirementsDictionary'
@@ -40,10 +40,16 @@ ProliRequirementReference class >> newCapella: aDocument withId: anId [
 { #category : 'instance creation' }
 ProliRequirementReference class >> newWithUniqueIdentifiant: aUniqueIdentifiant [
 
-	^ self requirementsDictionary at: aUniqueIdentifiant ifAbsentPut: [
-			  self
-				  basicNew;
-				  initialize ]
+	| requirement |
+	requirement := self requirementsDictionary
+		               at: aUniqueIdentifiant
+		               ifAbsentPut: [
+				               self
+					               basicNew
+					               initialize;
+					               uniqueId: aUniqueIdentifiant;
+					               yourself ].
+	^ requirement
 ]
 
 { #category : 'instance creation' }
@@ -52,18 +58,33 @@ ProliRequirementReference class >> requirementsDictionary [
 	^ requirementsDictionary ifNil: [ requirementsDictionary := Dictionary new ].
 ]
 
+{ #category : 'comparing' }
+ProliRequirementReference >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject ifTrue: [ ^ true ].
+	self class = anObject class ifFalse: [ ^ false ].
+	^ uniqueId = anObject uniqueId
+]
+
 { #category : 'accessing' }
 ProliRequirementReference >> content [
 
 	^ self retreiveContent value: self source
 ]
 
+{ #category : 'comparing' }
+ProliRequirementReference >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
+
+	^ uniqueId hash
+]
+
 { #category : 'initialization' }
 ProliRequirementReference >> initialize [
 
 	super initialize.
-	tags := {  }.
-	verificationProcess := [ true ].
+	verificationProcess := [ true ]
 ]
 
 { #category : 'accessing' }
@@ -91,15 +112,15 @@ ProliRequirementReference >> source: anObject [
 ]
 
 { #category : 'accessing' }
-ProliRequirementReference >> tags [
+ProliRequirementReference >> uniqueId [
 
-	^ tags
+	^ uniqueId
 ]
 
 { #category : 'accessing' }
-ProliRequirementReference >> tags: anObject [
+ProliRequirementReference >> uniqueId: anObject [
 
-	tags := anObject
+	uniqueId := anObject
 ]
 
 { #category : 'accessing' }

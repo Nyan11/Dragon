@@ -1,22 +1,22 @@
 Extension { #name : 'Object' }
 
 { #category : '*PrototypeLink-LNK' }
-Object >> proliAnnotedBy: aRequirementReference forPov: aPoV [
+Object >> proliAnnotedBy: aRequirementReference [
 
-	| verification dynamicLink |
-	verification := aRequirementReference verifyBlock
+	| dynamicLink |
+	dynamicLink := ProliDynamicLink new
+		               object: self;
+		               requirementReference: aRequirementReference;
+		               yourself.
+	ProliDynamicLinksRepository announcer announce: dynamicLink
+
+
+
+
+
+	"verification := aRequirementReference verifyBlock
 		                valueWithEnoughArguments: {
 				                self.
-				                aPoV.
-				                thisContext.
-				                aRequirementReference }.
-
-	dynamicLink := ProliDynamicLink new
-		               requirementReference: aRequirementReference;
-		               pointOfView: aPoV;
-		               verified: verification;
-		               object: self;
-		               yourself.
-
-	ProliDynamicLink announceNewLink: dynamicLink
+				                thisContext sender.
+				                aRequirementReference }."
 ]

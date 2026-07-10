@@ -1,32 +1,14 @@
 Class {
 	#name : 'ProliDynamicLink',
-	#superclass : 'Object',
+	#superclass : 'Announcement',
 	#instVars : [
 		'requirementReference',
-		'pointOfView',
 		'verified',
 		'object'
-	],
-	#classInstVars : [
-		'announcer'
 	],
 	#category : 'PrototypeLink-LNK',
 	#package : 'PrototypeLink-LNK'
 }
-
-{ #category : 'as yet unclassified' }
-ProliDynamicLink class >> announceNewLink: aProliDynamicLink [
-
-	self announcer announce: (ProliDynamicLinkCreated new
-			 dynamicLink: aProliDynamicLink;
-			 yourself)
-]
-
-{ #category : 'accessing' }
-ProliDynamicLink class >> announcer [
-
-	^ announcer ifNil: [ announcer := Announcer new ].
-]
 
 { #category : 'accessing' }
 ProliDynamicLink >> object [
@@ -38,18 +20,6 @@ ProliDynamicLink >> object [
 ProliDynamicLink >> object: anObject [
 
 	object := anObject
-]
-
-{ #category : 'accessing' }
-ProliDynamicLink >> pointOfView [
-
-	^ pointOfView
-]
-
-{ #category : 'accessing' }
-ProliDynamicLink >> pointOfView: anObject [
-
-	pointOfView := anObject
 ]
 
 { #category : 'accessing' }
